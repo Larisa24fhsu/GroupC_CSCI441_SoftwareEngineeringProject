@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('SELECT * FROM Vendor WHERE vendorID = $1', [id]);  // Use vendorID for primary key
+    const result = await pool.query('SELECT * FROM Vendor WHERE vendorid = $1', [id]);  // Use vendorID for primary key
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Vendor not found' });
     }
@@ -31,34 +31,56 @@ router.get('/:id', async (req, res) => {
 
 // Create a new vendor
 router.post('/', async (req, res) => {
-  const { vendorName, contactInfo, address } = req.body;  // Use correct column names
+  console.log(" Request Headers:", req.headers);
+  console.log("Received Request Body:", req.body); // Debugging
+
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ error: "Request body is empty or missing" });
+  }
+
+  const { vendorname, contactinfo, address } = req.body;
+
+  if (!vendorname || !contactinfo || !address) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
   try {
     const result = await pool.query(
-      'INSERT INTO Vendor (vendorName, contactInfo, address) VALUES ($1, $2, $3) RETURNING *',
-      [vendorName, contactInfo, address]  // Insert values into correct columns
+      'INSERT INTO Vendor (vendorname, contactinfo, address) VALUES ($1, $2, $3) RETURNING *',
+      [vendorname, contactinfo, address]
     );
+    console.log("Inserted Vendor:", result.rows[0]);
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: "Internal Server Error", details: err.message });
   }
 });
 
 // Update a vendor
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { vendorName, contactInfo, address } = req.body;  // Use correct column names
+  const { vendorname, contactinfo, address } = req.body;
+
+  console.log("Received Request Body:", req.body); // Debugging log
+
+  if (!vendorname || !contactinfo || !address) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
   try {
     const result = await pool.query(
-      'UPDATE Vendor SET vendorName = $1, contactInfo = $2, address = $3 WHERE vendorID = $4 RETURNING *',
-      [vendorName, contactInfo, address, id]  // Update with correct columns
+      'UPDATE vendor SET vendorname = $1, contactinfo = $2, address = $3 WHERE vendorid = $4 RETURNING *',
+      [vendorname, contactinfo, address, id]
     );
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Vendor not found' });
     }
+
     res.json(result.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    console.error("Database Error:", err.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

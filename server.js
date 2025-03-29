@@ -4,11 +4,12 @@ const dotenv = require('dotenv');
 dotenv.config();  // Loads environment variables from .env file
 
 const express = require('express');
+const app = express();
 const vendorRoutes = require('./routes/vendorRoutes');  // Import vendor routes
 const shippingRoutes = require('./routes/shippingRoutes'); // Import shipping routes
 const pool = require('./db');  // Assuming you have db.js set up to handle your PostgreSQL connection
 
-const app = express();
+
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());

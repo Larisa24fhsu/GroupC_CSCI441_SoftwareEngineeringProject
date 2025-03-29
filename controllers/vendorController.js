@@ -14,16 +14,28 @@ const getAllVendors = async (req, res) => {
 
 // Function to handle POST request to create a new vendor
 const createVendor = async (req, res) => {
-  const { vendorName, contactInfo, address } = req.body;  // Use correct column names
+  console.log("Received Body:", req.body); // Debugging line
+  
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ error: "Request body is empty or missing" });
+  }
+  
+  const { vendorname, contactinfo, address } = req.body;
+
+  if (!vendorname || !contactinfo || !address) {
+    return res.status(400).json({ error: "Missing required fields" }); //adding Debug Line
+  }
+
   try {
     const result = await pool.query(
-      'INSERT INTO Vendor (vendorName, contactInfo, address) VALUES ($1, $2, $3) RETURNING *',
-      [vendorName, contactInfo, address]  // Insert values into correct columns
+      'INSERT INTO vendor (vendorname, contactinfo, address) VALUES ($1, $2, $3) RETURNING *',
+      [vendorname, contactinfo, address]
     );
+    console.log("Inserted Vendor",result.rows[0]);
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
