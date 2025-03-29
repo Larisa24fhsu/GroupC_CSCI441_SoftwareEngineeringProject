@@ -2,13 +2,15 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-// Set up the PostgreSQL connection pool using the DATABASE_URL from environment variables
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false,  // This is often required for cloud-hosted databases (like Render)
-  },
+      rejectUnauthorized: false,
+  }
 });
 
-// Export the pool so it can be used in your routes (like vendorRoutes.js)
+pool.connect()
+  .then(() => console.log('Connected to PostgreSQL!'))
+  .catch(err => console.error('Error connecting to PostgreSQL:', err));
+
 module.exports = pool;
