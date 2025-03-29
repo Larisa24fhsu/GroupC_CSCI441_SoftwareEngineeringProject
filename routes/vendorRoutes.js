@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('SELECT * FROM Vendor WHERE id = $1', [id]);
+    const result = await pool.query('SELECT * FROM Vendor WHERE vendorID = $1', [id]);  // Use vendorID for primary key
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Vendor not found' });
     }
@@ -31,11 +31,11 @@ router.get('/:id', async (req, res) => {
 
 // Create a new vendor
 router.post('/', async (req, res) => {
-  const { name, contact_info } = req.body;
+  const { vendorName, contactInfo, address } = req.body;  // Use correct column names
   try {
     const result = await pool.query(
-      'INSERT INTO Vendor (name, contact_info) VALUES ($1, $2) RETURNING *',
-      [name, contact_info]
+      'INSERT INTO Vendor (vendorName, contactInfo, address) VALUES ($1, $2, $3) RETURNING *',
+      [vendorName, contactInfo, address]  // Insert values into correct columns
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -47,11 +47,11 @@ router.post('/', async (req, res) => {
 // Update a vendor
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { name, contact_info } = req.body;
+  const { vendorName, contactInfo, address } = req.body;  // Use correct column names
   try {
     const result = await pool.query(
-      'UPDATE Vendor SET name = $1, contact_info = $2 WHERE id = $3 RETURNING *',
-      [name, contact_info, id]
+      'UPDATE Vendor SET vendorName = $1, contactInfo = $2, address = $3 WHERE vendorID = $4 RETURNING *',
+      [vendorName, contactInfo, address, id]  // Update with correct columns
     );
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Vendor not found' });
@@ -67,7 +67,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('DELETE FROM Vendor WHERE id = $1 RETURNING *', [id]);
+    const result = await pool.query('DELETE FROM Vendor WHERE vendorID = $1 RETURNING *', [id]);  // Use vendorID for primary key
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Vendor not found' });
     }

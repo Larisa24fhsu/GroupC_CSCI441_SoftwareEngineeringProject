@@ -14,11 +14,11 @@ const getAllVendors = async (req, res) => {
 
 // Function to handle POST request to create a new vendor
 const createVendor = async (req, res) => {
-  const { name, contact_info } = req.body;
+  const { vendorName, contactInfo, address } = req.body;  // Use correct column names
   try {
     const result = await pool.query(
-      'INSERT INTO Vendor (name, contact_info) VALUES ($1, $2) RETURNING *',
-      [name, contact_info]
+      'INSERT INTO Vendor (vendorName, contactInfo, address) VALUES ($1, $2, $3) RETURNING *',
+      [vendorName, contactInfo, address]  // Insert values into correct columns
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
