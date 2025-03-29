@@ -1,6 +1,7 @@
 // server.js
 const express = require('express');
 const dotenv = require('dotenv');
+const vendorRoutes = require('./routes/vendorRoutes');  // Import vendor routes
 const pool = require('./db');  // Assuming you have db.js set up to handle your PostgreSQL connection
 
 dotenv.config();  // Loads environment variables from .env file
