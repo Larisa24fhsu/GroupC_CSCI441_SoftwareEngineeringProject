@@ -1,24 +1,14 @@
-// server.js
-const express = require('express');
-const dotenv = require('dotenv');
-const pool = require('./db');  // Assuming you have db.js set up to handle your PostgreSQL connection
+// db.js
+const { Pool } = require('pg');
+require('dotenv').config();
 
-dotenv.config();  // Loads environment variables from .env file
-
-const app = express();
-
-// Middleware to parse incoming JSON requests
-app.use(express.json());
-
-// Sample endpoint to test the server
-app.get('/', (req, res) => {
-  res.send('API is working!');
+// Set up the PostgreSQL connection pool using the DATABASE_URL from environment variables
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,  // This is often required for cloud-hosted databases (like Render)
+  },
 });
 
-// Define other API endpoints here
-
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Export the pool so it can be used in your routes (like vendorRoutes.js)
+module.exports = pool;
