@@ -12,4 +12,33 @@ const getAllShippers = async (req, res) => {
   }
 };
 
-module.exports = { getAllVendors };
+
+// Function to handle POST request to create a new vendor
+const createShipper = async (req, res) => {
+  console.log("Received Body:", req.body); // Debugging line
+  
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ error: "Request body is empty or missing" });
+  }
+  
+  const { vendorid, estimateddeliverydate, carriername, trackingnumber } = req.body;
+
+  if (!vendorid || !estimateddeliverydate || !carriername || !trackingnumber) {
+    return res.status(400).json({ error: "Missing required fields" }); //adding Debug Line
+  }
+
+  try {
+    const result = await pool.query(
+      'INSERT INTO Shipping (vendorid, estimateddeliverydate, carriername, trackingnumber) VALUES ($1, $2, $3) RETURNING *',
+      [vendorid, estimateddeliverydate, carriername, trackingnumber]
+    );
+    console.log("Inserted Shipper",result.rows[0]);
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+module.exports = { getAllShippers, createShipper };
