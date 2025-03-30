@@ -21,16 +21,16 @@ const createInventory = async (req, res) => {
       return res.status(400).json({ error: "Request body is empty or missing" });
     }
     
-    const { name, SKU, batchnumber, category, processedstatus, receiveddate, expirationdate,locationid,isperishable,shelflifedays,alertthresholddays,storagespacerequired,department,demand,orderingcost,holdingcostperyear} = req.body;
+    const {name, SKU, batchnumber, category, processedstatus, receiveddate, expirationdate, locationid, isperishable, shelflifedays, alertthresholddays, storagespacerequired, department, timestampreceived, demand, orderingcost, holdingcostperyear} = req.body;
   
-    if ( !name || !SKU || !batchnumber || !category || !processedstatus || !receiveddate || !expirationdate || !locationid || !isperishable || !shelflifedays || !alertthresholddays || !storagespacerequired || !department || !demand || !orderingcost|| !holdingcostperyear) {
+    if ( !name || !SKU || !batchnumber || !category || !processedstatus || !receiveddate || !expirationdate || !locationid || !isperishable || !shelflifedays || !alertthresholddays || !storagespacerequired || !department || !timestampreceived || !demand || !orderingcost|| !holdingcostperyear) {
       return res.status(400).json({ error: "Missing required fields" }); //adding Debug Line
     }
   
     try {
       const result = await pool.query(
-        'INSERT INTO Inventory (name, SKU, batchnumber, category, processedstatus, receiveddate, expirationdate,locationid,isperishable,shelflifedays,alertthresholddays,storagespacerequired,department,demand,orderingcost,holdingcostperyear) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *',
-        [name, SKU, batchnumber, category, processedstatus, receiveddate, expirationdate,locationid,isperishable,shelflifedays,alertthresholddays,storagespacerequired,department,demand,orderingcost,holdingcostperyear]
+        'INSERT INTO Inventory (name, SKU, batchnumber, category, processedstatus, receiveddate, expirationdate, locationid, isperishable, shelflifedays, alertthresholddays, storagespacerequired, department, timestampreceived, demand, orderingcost, holdingcostperyear) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *',
+        [name, SKU, batchnumber, category, processedstatus, receiveddate, expirationdate, locationid, isperishable, shelflifedays, alertthresholddays, storagespacerequired, department, timestampreceived, demand, orderingcost, holdingcostperyear]
       );
       console.log("Inserted Inventory",result.rows[0]);
       res.status(201).json(result.rows[0]);

@@ -8,6 +8,7 @@ const app = express();
 const vendorRoutes = require('./routes/vendorRoutes');  // Import vendor routes
 const locationRoutes = require('./routes/locationRoutes'); // Import location routes
 const inventoryRoutes = require('./routes/inventoryRoutes'); // Import inventory routes
+const agingInventoryRoutes = require('./routes/agingInventoryRoutes'); // Import aginginventory routes
 const alertRoutes = require('./routes/alertRoutes'); // Import alert routes
 const shippingRoutes = require('./routes/shippingRoutes'); // Import shipping routes
 const pool = require('./db');  // Assuming you have db.js set up to handle your PostgreSQL connection
@@ -25,6 +26,9 @@ app.use('/api/locations', locationRoutes);
 
 // Use inventory routes
 app.use('/api/inventory', inventoryRoutes);
+
+// User aginginventory routes
+app.use('/api/aginginventory', agingInventoryRoutes);
 
 // User alert routes
 app.use('/api/alerts', alertRoutes);
