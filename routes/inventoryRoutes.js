@@ -38,16 +38,16 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: "Request body is empty or missing" });
   }
 
-  const { itemid, name, batchnumber, category, processedstatus, receiveddate, expirationdate,locationid,isperishable,shelflifedays,alertthresholddays,storagespacerequired,department,timestampreceived,demand,orderingcost,holdingcostperyear} = req.body;
+  const {name, SKU, batchnumber, category, processedstatus, receiveddate, expirationdate,locationid,isperishable,shelflifedays,alertthresholddays,storagespacerequired,department,demand,orderingcost,holdingcostperyear} = req.body;
 
-  if (!vendorid || !name || !batchnumber || !category || !processedstatus || !receiveddate || !expirationdate || !locationid || !isperishable || !shelflifedays || !alertthresholddays || !storagespacerequired || !department || !timestampreceived || !demand || !orderingcost|| !holdingcostperyear) {
+  if (!name || !SKU || !batchnumber || !category || !processedstatus || !receiveddate || !expirationdate || !locationid || !isperishable || !shelflifedays || !alertthresholddays || !storagespacerequired || !department || !demand || !orderingcost|| !holdingcostperyear) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   try {
     const result = await pool.query(
-      'INSERT INTO Inventory (itemid, name, batchnumber, category, processedstatus, receiveddate, expirationdate,locationid,isperishable,shelflifedays,alertthresholddays,storagespacerequired,department,timestampreceived,demand,orderingcost,holdingcostperyear) VALUES ($1, $2, $3) RETURNING *',
-      [itemid, name, batchnumber, category, processedstatus, receiveddate, expirationdate,locationid,isperishable,shelflifedays,alertthresholddays,storagespacerequired,department,timestampreceived,demand,orderingcost,holdingcostperyear]
+      'INSERT INTO Inventory (name, SKU, batchnumber, category, processedstatus, receiveddate, expirationdate,locationid,isperishable,shelflifedays,alertthresholddays,storagespacerequired,department,demand,orderingcost,holdingcostperyear) VALUES ($1, $2, $3) RETURNING *',
+      [name, SKU, batchnumber, category, processedstatus, receiveddate, expirationdate,locationid,isperishable,shelflifedays,alertthresholddays,storagespacerequired,department,demand,orderingcost,holdingcostperyear]
     );
     console.log("Inserted Inventory", result.rows[0]);
     res.status(201).json(result.rows[0]);

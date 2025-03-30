@@ -6,8 +6,10 @@ dotenv.config();  // Loads environment variables from .env file
 const express = require('express');
 const app = express();
 const vendorRoutes = require('./routes/vendorRoutes');  // Import vendor routes
-const shippingRoutes = require('./routes/shippingRoutes'); // Import shipping routes
+const locationRoutes = require('./routes/locationRoutes'); // Import location routes
 const inventoryRoutes = require('./routes/inventoryRoutes'); // Import inventory routes
+const alertRoutes = require('./routes/alertRoutes'); // Import alert routes
+const shippingRoutes = require('./routes/shippingRoutes'); // Import shipping routes
 const pool = require('./db');  // Assuming you have db.js set up to handle your PostgreSQL connection
 
 
@@ -18,12 +20,17 @@ app.use(express.json());
 // Use vendor routes
 app.use('/api/vendors', vendorRoutes);
 
-// User shipping routes
-app.use('/api/shippers', shippingRoutes);
+// Use location routes
+app.use('/api/locations', locationRoutes);
 
-// Use vendor routes
+// Use inventory routes
 app.use('/api/inventory', inventoryRoutes);
 
+// User alert routes
+app.use('/api/alerts', alertRoutes);
+
+// User shipping routes
+app.use('/api/shippers', shippingRoutes);
 
 // Sample endpoint to test the server
 app.get('/', (req, res) => {
