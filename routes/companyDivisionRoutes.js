@@ -49,9 +49,8 @@ router.post("/", async (req, res) => {
 
   try {
     const result = await pool.query(
-      "INSERT INTO companydivision (divisionname, manager) VALUES ($1, $2) RETURNING *"[
-        (divisionname, manager)
-      ]
+      "INSERT INTO companydivision (divisionname, manager) VALUES ($1, $2) RETURNING *",
+      [divisionname, manager] // Parameters passed as an array
     );
     console.log("Inserted Inventory", result.rows[0]);
     res.status(201).json(result.rows[0]);
@@ -76,9 +75,8 @@ router.put("/:id", async (req, res) => {
 
   try {
     const result = await pool.query(
-      "UPDATE companydivision SET divisionname = $1, manager = $2 WHERE divisionid = $3 RETURNING *"[
-        (divisionname, manager, id)
-      ]
+      "UPDATE companydivision SET divisionname = $1, manager = $2 WHERE divisionid = $3 RETURNING *",
+      [divisionname, manager, id] // Correctly pass parameters as an array
     );
 
     if (result.rows.length === 0) {
