@@ -64,5 +64,5 @@ app.get('/', async (req, res) => {
   });
   
   app.listen(port, () => {
-    console.log(`Server listening at PORT = process.env.PORT || 3444`);
+    console.log(`Server listening at http://localhost:3444/companyDivision`);
   });
