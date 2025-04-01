@@ -13,6 +13,7 @@ const locationRoutes = require("./routes/locationRoutes"); // Import location ro
 const inventoryRoutes = require("./routes/inventoryRoutes"); // Import inventory routes
 const agingInventoryRoutes = require("./routes/agingInventoryRoutes"); // Import aginginventory routes
 const customerRoutes = require("./routes/customerRoutes"); // Import customerRoutes routes
+const orderRoutes = require("./routes/orderRoutes"); // Import orderRoutes
 const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
 const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
 const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
@@ -60,6 +61,9 @@ app.use("/api/companyDivisions", companyDivisionRoutes);
 
 //Pavel - Use customerRoutes
 app.use("/api/customers", customerRoutes);
+
+//Pavel - Use orderRoutes
+app.use("/api/orders", orderRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3444;
