@@ -1,19 +1,22 @@
 // server.js
-const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config(); // Loads environment variables from .env file
 
-//Cors
+const express = require("express");
+const cors = require("cors"); // Import CORS
+const app = express();
+
+// CORS setup
+const allowedOrigins = process.env.ALLOWED_ORIGINS || "*";
 app.use(
   cors({
-    origin: "*", // Allow all origins (you can restrict this to specific origins if needed)
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
+    origin: allowedOrigins.split(","),
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-const express = require("express");
-const app = express();
+//Import router files
 const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
 const companyDivisionRoutes = require("./routes/companyDivisionRoutes"); // Import vendor routes
 const locationRoutes = require("./routes/locationRoutes"); // Import location routes
@@ -28,9 +31,6 @@ app.use(express.json());
 
 // Use vendor routes
 app.use("/api/vendors", vendorRoutes);
-
-//Pavel - Use companyDivisionRoutes
-app.use("/api/companyDivision", companyDivisionRoutes);
 
 // Use location routes
 app.use("/api/locations", locationRoutes);
@@ -53,6 +53,9 @@ app.get("/", (req, res) => {
 });
 
 // Define other API endpoints here
+
+//Pavel - Use companyDivisionRoutes
+app.use("/api/companyDivision", companyDivisionRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3444;
