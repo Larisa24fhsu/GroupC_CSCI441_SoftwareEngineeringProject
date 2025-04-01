@@ -43,6 +43,12 @@ app.get("/", (req, res) => {
   res.send("API is working!");
 });
 
+app.use(cors({
+  origin: '*', // Allow all origins (you can restrict this to specific origins if needed)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+}));
+
 // Define other API endpoints here
 
 // Start the server

@@ -4,12 +4,6 @@ const { Client } = require('pg');
 const app = express();
 const pool = require('../db');  // Assuming you have a database connection in db.js
 
-app.use(cors({
-  origin: '*', // Allow all origins (you can restrict this to specific origins if needed)
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
-}));
-
 app.get('/', async (req, res) => {
     try {
       await client.connect();
