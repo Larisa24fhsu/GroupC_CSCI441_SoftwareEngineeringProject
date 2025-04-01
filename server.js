@@ -59,7 +59,6 @@ app.get("/", (req, res) => {
   res.send("API is working!");
 });
 
-// Define other API endpoints here
 
 // Start the server
 const PORT = process.env.PORT || 3444;
