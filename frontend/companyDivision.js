@@ -1,12 +1,19 @@
 const express = require('express');
+const cors = require('cors');
 const { Client } = require('pg');
 const app = express();
 const pool = require('../db');  // Assuming you have a database connection in db.js
 
+app.use(cors({
+  origin: '*', // Allow all origins (you can restrict this to specific origins if needed)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+}));
+
 app.get('/', async (req, res) => {
     try {
       await client.connect();
-      const result = await client.query('SELECT * FROM CompanyDivision');
+      const result = await client.query('SELECT * FROM Location');
   
       // Generate HTML table
       let html = '<table class="min-w-full">';
@@ -43,7 +50,6 @@ app.get('/', async (req, res) => {
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-            <s
        </head>
         <body class="bg-gray-100 p-6">
           <div class="container mx-auto bg-white rounded-lg shadow-md p-8">
@@ -64,5 +70,5 @@ app.get('/', async (req, res) => {
   });
   
   app.listen(port, () => {
-    console.log(`Server listening at PORT = process.env.PORT || 3444`);
+    console.log(`Server listening at http://localhost:${port}/api/locations`);
   });
