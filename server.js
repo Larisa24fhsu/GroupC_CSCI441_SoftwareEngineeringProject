@@ -33,8 +33,18 @@ app.use(
   })
 );
 
+// Sample endpoint to test the server
+app.get("/", (req, res) => {
+  res.send("API is working!");
+});
+
+//Define endpoints
+
 // Use vendor routes
 app.use("/api/vendors", vendorRoutes);
+
+// Pavel - Use companyDivisionRoutes
+app.use("/api/companyDivisions", companyDivisionRoutes);
 
 // Use location routes
 app.use("/api/locations", locationRoutes);
@@ -45,19 +55,24 @@ app.use("/api/inventory", inventoryRoutes);
 // User aginginventory routes
 app.use("/api/aginginventory", agingInventoryRoutes);
 
-// User alert routes
+// Pavel - Use customerRoutes
+app.use("/api/customers", customerRoutes);
+
+// Pavel - Use orderRoutes
+app.use("/api/orders", orderRoutes);
+
+// User orderItemsRoutes
 app.use("/api/orderItems", orderItemsRoutes);
 
 // User alert routes
 app.use("/api/alerts", alertRoutes);
 
+// Pavel - Use userAccountRoutes
+app.use("/api/userAccounts", userAccountRoutes);
+
 // User shipping routes
 app.use("/api/shippers", shippingRoutes);
 
-// Sample endpoint to test the server
-app.get("/", (req, res) => {
-  res.send("API is working!");
-});
 
 
 // Start the server
