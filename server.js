@@ -15,6 +15,7 @@ const agingInventoryRoutes = require("./routes/agingInventoryRoutes"); // Import
 const customerRoutes = require("./routes/customerRoutes"); // Import customerRoutes routes
 const orderRoutes = require("./routes/orderRoutes"); // Import orderRoutes
 const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
+const userAccountRoutes = require("./routes/userAccountRoutes"); // Import userAccountRoutes
 const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
 const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
 
@@ -64,6 +65,9 @@ app.use("/api/customers", customerRoutes);
 
 //Pavel - Use orderRoutes
 app.use("/api/orders", orderRoutes);
+
+//Pavel - Use userAccountRoutes
+app.use("/api/userAccounts", userAccountRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3444;
