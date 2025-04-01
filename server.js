@@ -1,7 +1,16 @@
 // server.js
-
+const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config(); // Loads environment variables from .env file
+
+//Cors
+app.use(
+  cors({
+    origin: "*", // Allow all origins (you can restrict this to specific origins if needed)
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
+  })
+);
 
 const express = require("express");
 const app = express();
@@ -42,12 +51,6 @@ app.use("/api/shippers", shippingRoutes);
 app.get("/", (req, res) => {
   res.send("API is working!");
 });
-
-app.use(cors({
-  origin: '*', // Allow all origins (you can restrict this to specific origins if needed)
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
-}));
 
 // Define other API endpoints here
 
