@@ -3,6 +3,7 @@ const cors = require('cors');
 const { Client } = require('pg');
 const app = express();
 const pool = require('../db');  // Assuming you have a database connection in db.js
+app.use(cors());
 
 app.get('/', async (req, res) => {
     try {
@@ -63,6 +64,7 @@ app.get('/', async (req, res) => {
     }
   });
   
+  const port = process.env.PORT || 3444;
   app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}/api/locations`);
   });
