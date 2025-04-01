@@ -1,12 +1,12 @@
-// routes/companyDivisionRoutes.js
+// routes/userAccountRouters.js
 const express = require("express");
 const router = express.Router();
 const pool = require("../db"); // Assuming the database connection is in db.js
 
-// Get all Divisions
+// Get all userAccounts
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM companydivision");
+    const result = await pool.query("SELECT * FROM useraccount");
     res.json(result.rows);
   } catch (err) {
     console.error(err.message);
@@ -14,16 +14,16 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get Company Division by divisionid
+// Get Account  by userid
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query(
-      "SELECT * FROM companydivision WHERE divisionid = $1",
+      "SELECT * FROM useraccount WHERE userid = $1",
       [id]
-    ); // Use divisionid for primary key
+    ); // Use userid for primary key
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Division not found" });
+      return res.status(404).json({ error: "Account not found" });
     }
     res.json(result.rows[0]);
   } catch (err) {
@@ -32,7 +32,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a new Division
+// Create a new order
 router.post("/", async (req, res) => {
   console.log("Request Headers:", req.headers); //Debugging
   console.log("Received Request Body:", req.body); // Debugging
@@ -41,18 +41,18 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error: "Request body is empty or missing" });
   }
 
-  const { divisionname, manager } = req.body;
+  const { username, password } = req.body;
 
-  if (!divisionname || !manager) {
+  if (!username || !password) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   try {
     const result = await pool.query(
-      "INSERT INTO companydivision (divisionname, manager) VALUES ($1, $2) RETURNING *",
-      [divisionname, manager] // Parameters passed as an array
+      "INSERT INTO useraccount (username, password ) VALUES ($1, $2) RETURNING *",
+      [username, password] // Parameters passed as an array
     );
-    console.log("Inserted Division", result.rows[0]);
+    console.log("Inserted New User", result.rows[0]);
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error("Database Error:", err.message);
@@ -62,25 +62,25 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Update a companyDivision
+// Update a user
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { divisionname, manager } = req.body;
+  const { username, password } = req.body;
 
   console.log("Received Request Body:", req.body); // Debugging log
 
-  if (!divisionname || !manager) {
+  if (!username || !password) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   try {
     const result = await pool.query(
-      "UPDATE companydivision SET divisionname = $1, manager = $2 WHERE divisionid = $3 RETURNING *",
-      [divisionname, manager, id] // Correctly pass parameters as an array
+      "UPDATE useraccount SET username = $1, password = $2 WHERE userid = $3 RETURNING *",
+      [username, password, id] // Correctly pass parameters as an array
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Division not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     res.json(result.rows[0]);
@@ -90,18 +90,18 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Delete a Division
+// Delete a User
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query(
-      "DELETE FROM companydivision WHERE divisionid = $1 RETURNING *",
+      "DELETE FROM useraccount WHERE userid = $1 RETURNING *",
       [id]
-    ); // Use divisionid for primary key
+    ); // Use userid for primary key
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Division not found" });
+      return res.status(404).json({ error: "User not found" });
     }
-    res.json({ message: "Division deleted" });
+    res.json({ message: "User deleted" });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Internal Server Error" });
