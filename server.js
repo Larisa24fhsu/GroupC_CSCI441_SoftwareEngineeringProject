@@ -9,7 +9,8 @@ const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
 const companyDivisionRoutes = require("./routes/companyDivisionRoutes"); // Import vendor routes
 const locationRoutes = require("./routes/locationRoutes"); // Import location routes
 const inventoryRoutes = require("./routes/inventoryRoutes"); // Import inventory routes
-const agingInventoryRoutes = require("./routes/agingInventoryRoutes"); // Import aginginventory routes
+const agingInventoryRoutes = require("./routes/agingInventoryRoutes.js"); // Import aginginventory routes
+const orderItemsRoutes = require("./routes/orderItemsRoutes"); // Import  routes
 const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
 const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
 const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
@@ -33,6 +34,9 @@ app.use("/api/inventory", inventoryRoutes);
 app.use("/api/aginginventory", agingInventoryRoutes);
 
 // User alert routes
+app.use("/api/orderItems", orderItemsRoutes);
+
+// User alert routes
 app.use("/api/alerts", alertRoutes);
 
 // User shipping routes
@@ -43,7 +47,6 @@ app.get("/", (req, res) => {
   res.send("API is working!");
 });
 
-// Define other API endpoints here
 
 // Start the server
 const PORT = process.env.PORT || 3444;
