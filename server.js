@@ -6,6 +6,20 @@ const express = require("express");
 const cors = require("cors"); // Import CORS
 const app = express();
 
+//Import router files
+const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
+const companyDivisionRoutes = require("./routes/companyDivisionRoutes"); // Import vendor routes
+const locationRoutes = require("./routes/locationRoutes"); // Import location routes
+const inventoryRoutes = require("./routes/inventoryRoutes"); // Import inventory routes
+const agingInventoryRoutes = require("./routes/agingInventoryRoutes"); // Import aginginventory routes
+const customerRoutes = require("./routes/customerRoutes"); // Import customerRoutes routes
+const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
+const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
+const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
+
+// Middleware to parse incoming JSON requests
+app.use(express.json());
+
 // CORS setup
 const allowedOrigins = process.env.ALLOWED_ORIGINS || "*";
 app.use(
@@ -15,19 +29,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-//Import router files
-const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
-const companyDivisionRoutes = require("./routes/companyDivisionRoutes"); // Import vendor routes
-const locationRoutes = require("./routes/locationRoutes"); // Import location routes
-const inventoryRoutes = require("./routes/inventoryRoutes"); // Import inventory routes
-const agingInventoryRoutes = require("./routes/agingInventoryRoutes"); // Import aginginventory routes
-const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
-const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
-const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
-
-// Middleware to parse incoming JSON requests
-app.use(express.json());
 
 // Use vendor routes
 app.use("/api/vendors", vendorRoutes);
@@ -55,7 +56,10 @@ app.get("/", (req, res) => {
 // Define other API endpoints here
 
 //Pavel - Use companyDivisionRoutes
-app.use("/api/companyDivision", companyDivisionRoutes);
+app.use("/api/companyDivisions", companyDivisionRoutes);
+
+//Pavel - Use customerRoutes
+app.use("/api/customers", customerRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3444;
