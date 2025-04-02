@@ -2,9 +2,12 @@
 const dotenv = require("dotenv");
 dotenv.config(); // Loads environment variables from .env file
 
-const express = require("express");
+const express = require("express"); //Import express
+const app = express(); //Call express and place it in the app variable
+
+const path = require("path"); //Import common core modules
+
 const cors = require("cors"); // Import CORS
-const app = express();
 
 //Import router files
 const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
@@ -33,10 +36,10 @@ app.use(
   })
 );
 
-// Sample endpoint to test the server
+/* // Sample endpoint to test the server
 app.get("/", (req, res) => {
   res.send("API is working!");
-});
+}); */
 
 //Define endpoints
 
@@ -73,7 +76,10 @@ app.use("/api/userAccounts", userAccountRoutes);
 // User shipping routes
 app.use("/api/shippers", shippingRoutes);
 
-
+//Define Route html
+app.get("^/$|/index(.html)?", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "index.html"));
+});
 
 // Start the server
 const PORT = process.env.PORT || 3444;
