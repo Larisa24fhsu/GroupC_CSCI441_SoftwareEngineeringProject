@@ -7,16 +7,51 @@ const app = express(); //Call express and place it in the app variable
 
 const path = require("path"); //Import common core modules
 
+const cors = require("cors"); //Import Cors module -  Cross Origin Resource Sharing
+
 //Import custom log module
 const { logger } = require("./middleware/logEvents");
 
-const cors = require("cors"); // Import CORS
+//Import custom log module
+const errorHandler = require("./middleware/errorHandler");
 
 //Define port for webserver
 const PORT = process.env.PORT || 3444;
 
 //Custom middleware logger
 app.use(logger);
+
+//whitelist for CORS will be for who is allowed to access your api
+const whitelist = [
+  "https://www.google.com",
+  "http://127.0.0.1:5500",
+  "http://localhost:3500",
+];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  optionsSuccessStatus: 200,
+};
+
+//Use CORS - Cross Origin Resource Sharing
+app.use(cors(corsOptions));
+
+/* 
+const allowedOrigins = process.env.ALLOWED_ORIGINS || "*";
+app.use(
+  cors({
+    origin: allowedOrigins.split(","),
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+ */
 
 //built-in middleware to handle urlencoded data, in other words, from :data
 //‘content-type: application/x-www-form-urlencoded’
@@ -42,16 +77,6 @@ const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
 const userAccountRoutes = require("./routes/userAccountRoutes"); // Import userAccountRoutes
 const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
 const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
-
-// CORS setup
-const allowedOrigins = process.env.ALLOWED_ORIGINS || "*";
-app.use(
-  cors({
-    origin: allowedOrigins.split(","),
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
 
 /* // Sample endpoint to test the server
 app.get("/", (req, res) => {
@@ -97,6 +122,14 @@ app.use("/api/shippers", shippingRoutes);
 app.get("^/$|/index(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
+
+//Redirect all incorrect traffic to a 404.html page
+app.get("/*", (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
+});
+
+//CORS Error handling
+app.use(errorHandler);
 
 //Server listen for request using express, remember we called express and set it to the variable app
 app.listen(PORT, () => {
