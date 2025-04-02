@@ -39,4 +39,81 @@ const createAlert = async (req, res) => {
   }
 };
 
-module.exports = { getAllAlerts, createAlert};
+// === Additional Alert Functions for Auto-Checks ===
+
+// Check for low stock items and create alerts
+const checkLowStockAlerts = async () => {
+  try {
+    const lowStockItems = await pool.query(`
+      SELECT itemID FROM Inventory 
+      WHERE demand < 10; -- You can customize this threshold
+    `);
+
+    for (const row of lowStockItems.rows) {
+      await pool.query(`
+        INSERT INTO Alerts (alertType, affectedItemID, dateTriggered, alertStatus, department)
+        VALUES ('Low Stock', $1, CURRENT_DATE, 'Active', 'Inventory Control')
+        ON CONFLICT DO NOTHING; -- Prevents duplicate alerts
+      `, [row.itemid]);
+    }
+  } catch (err) {
+    console.error('Low stock alert error:', err);
+  }
+};
+
+// Check for expired inventory and create alerts
+const checkExpiredInventoryAlerts = async () => {
+  try {
+    const expiredItems = await pool.query(`
+      SELECT itemID FROM Inventory 
+      WHERE expirationDate < CURRENT_DATE;
+    `);
+
+    for (const row of expiredItems.rows) {
+      await pool.query(`
+        INSERT INTO Alerts (alertType, affectedItemID, dateTriggered, alertStatus, department)
+        VALUES ('Expired Inventory', $1, CURRENT_DATE, 'Active', 'Quality Assurance')
+        ON CONFLICT DO NOTHING;
+      `, [row.itemid]);
+    }
+  } catch (err) {
+    console.error('Expired inventory alert error:', err);
+  }
+};
+
+// Check for aged inventory and create alerts
+const checkAgedInventoryAlerts = async () => {
+  try {
+    const agedItems = await pool.query(`
+      SELECT itemID FROM Inventory 
+      WHERE CURRENT_DATE - receivedDate > alertThresholdDays;
+    `);
+
+    for (const row of agedItems.rows) {
+      await pool.query(`
+        INSERT INTO Alerts (alertType, affectedItemID, dateTriggered, alertStatus, department)
+        VALUES ('Aged Inventory', $1, CURRENT_DATE, 'Active', 'Inventory Control')
+        ON CONFLICT DO NOTHING;
+      `, [row.itemid]);
+    }
+  } catch (err) {
+    console.error('Aged inventory alert error:', err);
+  }
+};
+
+// Optional: Helper to run all alerts together
+const runAllAlerts = async () => {
+  await checkLowStockAlerts();
+  await checkExpiredInventoryAlerts();
+  await checkAgedInventoryAlerts();
+};
+
+
+module.exports = {
+  getAllAlerts,
+  createAlert,
+  checkLowStockAlerts,
+  checkExpiredInventoryAlerts,
+  checkAgedInventoryAlerts,
+  runAllAlerts
+};
