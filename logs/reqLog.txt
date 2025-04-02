@@ -1,0 +1,6 @@
+20250402	10:24:44	22d6726b-3a84-4502-a4f6-3a3a738e7815	GET	undefined	/index.html
+20250402	10:24:44	1929ff49-142c-42b1-9079-ca4867d0d4be	GET	undefined	/css/style.css
+20250402	10:25:09	6b3c9f73-2ecc-4255-96c1-e3a87da5a31b	GET	undefined	/
+20250402	10:25:09	56399f35-d5f7-4c66-9318-2675a8619421	GET	undefined	/css/style.css
+20250402	10:25:49	3d46784f-99ac-48e9-b55b-dd6345a6034f	GET	undefined	/css/style.css
+20250402	10:27:46	1f635fee-ff40-4772-a6e2-634b46f40ad3	GET	undefined	/api/companydivisions

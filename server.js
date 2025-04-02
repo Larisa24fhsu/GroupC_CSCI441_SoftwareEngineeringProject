@@ -7,7 +7,27 @@ const app = express(); //Call express and place it in the app variable
 
 const path = require("path"); //Import common core modules
 
+//Import custom log module
+const { logger } = require("./middleware/logEvents");
+
 const cors = require("cors"); // Import CORS
+
+//Define port for webserver
+const PORT = process.env.PORT || 3444;
+
+//Custom middleware logger
+app.use(logger);
+
+//built-in middleware to handle urlencoded data, in other words, from :data
+//‘content-type: application/x-www-form-urlencoded’
+//This is used to handle you url encoded data
+app.use(express.urlencoded({ extended: false }));
+
+// Middleware to parse incoming JSON requests
+app.use(express.json());
+
+//built-in middleware to to serve static files like CSS
+app.use(express.static(path.join(__dirname, "/public")));
 
 //Import router files
 const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
@@ -22,17 +42,6 @@ const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
 const userAccountRoutes = require("./routes/userAccountRoutes"); // Import userAccountRoutes
 const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
 const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
-
-//built-in middleware to handle urlencoded data, in other words, from :data
-//‘content-type: application/x-www-form-urlencoded’
-//This is used to handle you url encoded data
-app.use(express.urlencoded({ extended: false }));
-
-// Middleware to parse incoming JSON requests
-app.use(express.json());
-
-//built-in middleware to to serve static files like CSS
-app.use(express.static(path.join(__dirname, "/public")));
 
 // CORS setup
 const allowedOrigins = process.env.ALLOWED_ORIGINS || "*";
@@ -89,8 +98,7 @@ app.get("^/$|/index(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 
-// Start the server
-const PORT = process.env.PORT || 3444;
+//Server listen for request using express, remember we called express and set it to the variable app
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
