@@ -23,8 +23,16 @@ const userAccountRoutes = require("./routes/userAccountRoutes"); // Import userA
 const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
 const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
 
+//built-in middleware to handle urlencoded data, in other words, from :data
+//‘content-type: application/x-www-form-urlencoded’
+//This is used to handle you url encoded data
+app.use(express.urlencoded({ extended: false }));
+
 // Middleware to parse incoming JSON requests
 app.use(express.json());
+
+//built-in middleware to to serve static files like CSS
+app.use(express.static(path.join(__dirname, "/public")));
 
 // CORS setup
 const allowedOrigins = process.env.ALLOWED_ORIGINS || "*";
