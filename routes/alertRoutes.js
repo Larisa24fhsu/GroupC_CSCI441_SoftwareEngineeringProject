@@ -1,4 +1,5 @@
 // routes/alertRoutes.js
+const { runAllAlerts } = require('../controllers/alertController');
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');  // Assuming the database connection is in db.js
@@ -99,5 +100,17 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// Route to manually trigger all alert checks
+router.get('/run-checks', async (req, res) => {
+  try {
+    await runAllAlerts(); // This calls the logic for low stock, expired, and aged inventory
+    res.json({ message: 'Alert checks completed.' });
+  } catch (err) {
+    console.error('Error running alert checks:', err);
+    res.status(500).json({ error: 'Failed to run alert checks' });
+  }
+});
+
 
 module.exports = router;

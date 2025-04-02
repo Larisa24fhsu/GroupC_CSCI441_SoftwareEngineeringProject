@@ -1,7 +1,7 @@
 {
   "name": "javascript-classes",
   "version": "1.0.0",
-  "main": "Node.js",
+ 
   "scripts": {
     "start": "nodemon --env-file=.env server.js"
   },
