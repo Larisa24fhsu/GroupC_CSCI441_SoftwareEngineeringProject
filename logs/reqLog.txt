@@ -95,3 +95,11 @@
 20250402	23:25:50	5b890409-69bf-4905-9e84-fed561083841	GET	undefined	/api/locations
 20250402	23:26:00	06201bde-b208-4026-bdc0-04ba76c87554	GET	undefined	/login
 20250402	23:26:00	56260435-9eff-47cd-ae51-5d71ce639a4b	GET	undefined	/css/style.css
+20250402	23:27:45	8d8a6ddc-5605-4b6e-8d60-8b212cf4ac64	GET	undefined	/
+20250402	23:27:45	15038a04-04c4-4359-8c6d-751a5ed602b3	GET	undefined	/css/style.css
+20250402	23:27:49	0be86f2d-4fb4-44f0-942d-f74b21904781	GET	undefined	/login
+20250402	23:27:49	8b30ceb5-6f32-4e4f-b60b-1501106eb584	GET	undefined	/css/style.css
+20250402	23:27:55	01bec72b-dc34-44b2-bcb3-731cbf4adabd	GET	undefined	/companyDivision
+20250402	23:27:55	3824985f-fcf8-432e-8fd2-1acea2fe3b28	GET	undefined	/css/style.css
+20250402	23:27:55	aacb7915-1083-4fa9-81ee-f974274d8121	GET	undefined	/api/locations
+20250402	23:28:00	ed06df7d-91ce-435d-90be-e1c49dcea8c9	GET	undefined	/css/style.css
