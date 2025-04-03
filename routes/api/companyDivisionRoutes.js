@@ -1,7 +1,6 @@
 // routes/companyDivisionRoutes.js
 const express = require("express");
 const router = express.Router();
-const pool = require("../../db"); // Assuming the database connection is in db.js
 const companyDivisionController = require("../../controllers/companyDivisionController");
 
 router

@@ -9,6 +9,9 @@ const path = require("path"); //Import common core modules
 
 const cors = require("cors"); //Import Cors module -  Cross Origin Resource Sharing
 
+//Import CorsOptions functions from the CorOptions.js in the config folder
+const corsOptions = require("./config/corsOptions");
+
 //Import custom log module
 const { logger } = require("./middleware/logEvents");
 
@@ -20,23 +23,6 @@ const PORT = process.env.PORT || 3444;
 
 //Custom middleware logger
 app.use(logger);
-
-//whitelist for CORS will be for who is allowed to access your api
-const whitelist = [
-  "https://www.google.com",
-  "http://127.0.0.1:5500",
-  "http://localhost:3500",
-];
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  optionsSuccessStatus: 200,
-};
 
 //Use CORS - Cross Origin Resource Sharing
 app.use(cors(corsOptions));
