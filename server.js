@@ -69,7 +69,7 @@ app.use("/", require("./routes/root"));
 
 //Import router files
 const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
-const companyDivisionRoutes = require("./routes/companyDivisionRoutes"); // Import vendor routes
+const companyDivisionRoutes = require("./routes/api/companyDivisionRoutes"); // Import companyDivision route
 const locationRoutes = require("./routes/locationRoutes"); // Import location routes
 const inventoryRoutes = require("./routes/inventoryRoutes"); // Import inventory routes
 const agingInventoryRoutes = require("./routes/agingInventoryRoutes.js"); // Import aginginventory routes
