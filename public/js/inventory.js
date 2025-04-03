@@ -2,6 +2,9 @@
 document.getElementById("getInventory").addEventListener("click", getInventory);
 
 function getInventory() {
+  let output = `Loading Inventory...`;
+  document.getElementById("output").innerHTML = output;
+
   fetch("/api/inventory")
     .then((res) => res.json())
     .then((data) => {
