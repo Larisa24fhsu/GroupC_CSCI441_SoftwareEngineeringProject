@@ -1,4 +1,4 @@
 .env
-err.txt
-req.txt
+errLog.txt
+reqLog.txt
 logs
