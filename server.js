@@ -64,6 +64,9 @@ app.use(express.json());
 //built-in middleware to to serve static files like CSS for the public directory
 app.use("/", express.static(path.join(__dirname, "/public")));
 
+//Router for the root directory these are the files in the public folder
+app.use("/", require("./routes/root"));
+
 //Import router files
 const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
 const companyDivisionRoutes = require("./routes/companyDivisionRoutes"); // Import vendor routes
@@ -117,9 +120,6 @@ app.use("/api/userAccounts", userAccountRoutes);
 
 // User shipping routes
 app.use("/api/shippers", shippingRoutes);
-
-//Router for the root directory these are the files in the public folder
-app.use("/", require("./routes/root"));
 
 //Redirect all incorrect traffic to a 404.html page
 app.all("*", (req, res) => {
