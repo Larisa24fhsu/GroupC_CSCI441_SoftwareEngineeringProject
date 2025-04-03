@@ -61,8 +61,8 @@ app.use(express.urlencoded({ extended: false }));
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
-//built-in middleware to to serve static files like CSS
-app.use(express.static(path.join(__dirname, "/public")));
+//built-in middleware to to serve static files like CSS for the public directory
+app.use("/", express.static(path.join(__dirname, "/public")));
 
 //Import router files
 const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
@@ -118,10 +118,8 @@ app.use("/api/userAccounts", userAccountRoutes);
 // User shipping routes
 app.use("/api/shippers", shippingRoutes);
 
-//Define Route html
-app.get("^/$|/index(.html)?", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "index.html"));
-});
+//Router for the root directory these are the files in the public folder
+app.use("/", require("./routes/root"));
 
 //Redirect all incorrect traffic to a 404.html page
 app.all("*", (req, res) => {
