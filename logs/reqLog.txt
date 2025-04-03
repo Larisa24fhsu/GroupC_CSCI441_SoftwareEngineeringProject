@@ -118,3 +118,14 @@
 20250402	23:46:19	8e7a7306-627e-4d78-8751-4a90b75f9a40	GET	undefined	/css/style.css
 20250402	23:46:24	dd7332a9-1f9d-46aa-92e6-16a5c2d601d9	GET	undefined	/test
 20250402	23:46:24	1e9a06b5-d30c-4c28-9b2d-a9d4c5d1f26c	GET	undefined	/css/style.css
+20250402	23:48:40	edf7e836-3ba6-41d0-a2eb-60d0f14c6ff4	GET	undefined	/test
+20250402	23:48:40	44003015-4db7-448f-b85e-3d3f06a3bc55	GET	undefined	/css/style.css
+20250402	23:48:42	cc8c7f34-877d-4ba3-b6cd-8ec2f5fba77e	GET	undefined	/test
+20250402	23:48:42	6b5e81ee-0371-48ee-b61e-47f5e82b1212	GET	undefined	/css/style.css
+20250402	23:48:48	a0a6e91c-ae15-4495-96a8-01ed81542ffb	GET	undefined	/
+20250402	23:48:48	f6bcd990-c7ae-4627-936b-af79f273c8db	GET	undefined	/css/style.css
+20250402	23:48:52	19178590-4824-422a-ae78-c0d72f7c4fd6	GET	undefined	/login
+20250402	23:48:52	9fcde2c5-153b-40d5-8e2d-49d6199ccef6	GET	undefined	/css/style.css
+20250402	23:48:58	6148af44-c4f7-492a-b199-3f938024d425	GET	undefined	/companyDivision
+20250402	23:48:58	fde98f62-4551-408d-8c09-47120674735b	GET	undefined	/css/style.css
+20250402	23:48:58	6546d0e7-0edb-461c-bec2-b556f96ee881	GET	undefined	/api/locations
