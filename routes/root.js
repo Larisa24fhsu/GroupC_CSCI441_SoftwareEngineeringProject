@@ -12,12 +12,16 @@ router.get("^/$|/index(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "index.html"));
 });
 
+router.get("/login(.html)?", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "views", "login.html"));
+});
+
 router.get("/companyDivision(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "companyDivision.html"));
 });
 
-router.get("/login(.html)?", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "views", "login.html"));
+router.get("/inventory(.html)?", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "views", "inventory.html"));
 });
 
 module.exports = router;
