@@ -31,6 +31,7 @@ function getInventory() {
                           <li>Ordering Cost: ${inventory.orderingcost}</li>
                           <li>Holding Cost Per Year: ${inventory.holdingcostperyear}</li>
                       </ul>
+                      <br />
                   `;
       });
       document.getElementById("output").innerHTML = output;
@@ -40,63 +41,79 @@ function getInventory() {
 //add new inventory item with POST
 //updated to update item with PUT
 
-document.getElementById("inventoryForm").addEventListener("submit", function (event) {
-  event.preventDefault();
+document
+  .getElementById("inventoryForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
 
-  const itemId = document.getElementById("itemid").value;
+    const itemId = document.getElementById("itemid").value;
 
-  const inventoryItem = {
-    name: document.getElementById("name").value,
-    sku: document.getElementById("sku").value,
-    batchnumber: document.getElementById("batchnumber").value,
-    category: document.getElementById("category").value,
-    processedstatus: document.getElementById("processedstatus").value,
-    receiveddate: document.getElementById("receiveddate").value,
-    expirationdate: document.getElementById("expirationdate").value || null,
-    locationid: parseInt(document.getElementById("locationid").value),
-    isperishable: document.getElementById("isperishable").value === "true",
-    shelflifedays: parseInt(document.getElementById("shelflifedays").value),
-    alertthresholddays: parseInt(document.getElementById("alertthresholddays").value),
-    storagespacerequired: parseInt(document.getElementById("storagespacerequired").value),
-    department: document.getElementById("department").value,
-    timestampreceived: document.getElementById("timestampreceived").value || null,
-    demand: parseInt(document.getElementById("demand").value),
-    orderingcost: parseFloat(document.getElementById("orderingcost").value),
-    holdingcostperyear: parseFloat(document.getElementById("holdingcostperyear").value)
-  };
+    const inventoryItem = {
+      name: document.getElementById("name").value,
+      sku: document.getElementById("sku").value,
+      batchnumber: document.getElementById("batchnumber").value,
+      category: document.getElementById("category").value,
+      processedstatus: document.getElementById("processedstatus").value,
+      receiveddate: document.getElementById("receiveddate").value,
+      expirationdate: document.getElementById("expirationdate").value || null,
+      locationid: parseInt(document.getElementById("locationid").value),
+      isperishable: document.getElementById("isperishable").value === "true",
+      shelflifedays: parseInt(document.getElementById("shelflifedays").value),
+      alertthresholddays: parseInt(
+        document.getElementById("alertthresholddays").value
+      ),
+      storagespacerequired: parseInt(
+        document.getElementById("storagespacerequired").value
+      ),
+      department: document.getElementById("department").value,
+      timestampreceived:
+        document.getElementById("timestampreceived").value || null,
+      demand: parseInt(document.getElementById("demand").value),
+      orderingcost: parseFloat(document.getElementById("orderingcost").value),
+      holdingcostperyear: parseFloat(
+        document.getElementById("holdingcostperyear").value
+      ),
+    };
 
-  if (itemId) {
-    // UPDATE existing inventory item
-    fetch(`/api/inventory/${itemId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(inventoryItem)
-    })
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById("postResult").innerHTML = `<p>Updated: ${data.name} (ID: ${data.itemid})</p>`;
-        document.getElementById("inventoryForm").reset();
+    if (itemId) {
+      // UPDATE existing inventory item
+      fetch(`/api/inventory/${itemId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inventoryItem),
       })
-      .catch(error => {
-        console.error("Error:", error);
-        document.getElementById("postResult").innerHTML = `<p style="color:red;">Failed to update item.</p>`;
-      });
-
-  } else {
-    // ADD new inventory item
-    fetch("/api/inventory", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(inventoryItem)
-    })
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById("postResult").innerHTML = `<p>Added: ${data.name} (ID: ${data.itemid})</p>`;
-        document.getElementById("inventoryForm").reset();
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById(
+            "postResult"
+          ).innerHTML = `<p>Updated: ${data.name} (ID: ${data.itemid})</p>`;
+          document.getElementById("inventoryForm").reset();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById(
+            "postResult"
+          ).innerHTML = `<p style="color:red;">Failed to update item.</p>`;
+        });
+    } else {
+      // ADD new inventory item
+      fetch("/api/inventory", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inventoryItem),
       })
-      .catch(error => {
-        console.error("Error:", error);
-        document.getElementById("postResult").innerHTML = `<p style="color:red;">Failed to add item.</p>`;
-      });
-  }
-});
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById(
+            "postResult"
+          ).innerHTML = `<p>Added: ${data.name} (ID: ${data.itemid})</p>`;
+          document.getElementById("inventoryForm").reset();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById(
+            "postResult"
+          ).innerHTML = `<p style="color:red;">Failed to add item.</p>`;
+        });
+    }
+  });

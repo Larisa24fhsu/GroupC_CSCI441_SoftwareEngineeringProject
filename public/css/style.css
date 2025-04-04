@@ -35,9 +35,13 @@ body {
 */
   margin: 0;
   position: absolute;
-  top: 50%;
+  /*top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  */
+  top: 100px; /* Push it down a fixed amount from the topnav */
+  left: 50%;
+  transform: translateX(-50%); /* Only horizontally center it */
   color: #fff;
 }
 
