@@ -5,7 +5,7 @@ function getVendor() {
   let output = `Loading Vendors...`;
   document.getElementById("output").innerHTML = output;
 
-  fetch("/api/vendor")
+  fetch("/api/vendors")
     .then((res) => res.json())
     .then((data) => {
       let output = "<h1>Vendors</h1>";
@@ -35,7 +35,7 @@ document.getElementById("vendorForm").addEventListener("submit", function (event
     batchnumber: document.getElementById("address").value
   };
 
-  fetch("/api/vendor", {
+  fetch("/api/vendors", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -44,7 +44,7 @@ document.getElementById("vendorForm").addEventListener("submit", function (event
   })
     .then(response => response.json())
     .then(data => {
-      document.getElementById("postResult").innerHTML = `<p>Item Added: ${data.vendorname} (ID: ${data.vendorid})</p>`;
+      document.getElementById("postResult").innerHTML = `<p>Vendor Added: ${data.vendorname} (ID: ${data.vendorid})</p>`;
       document.getElementById("vendorForm").reset();
     })
     .catch(error => {

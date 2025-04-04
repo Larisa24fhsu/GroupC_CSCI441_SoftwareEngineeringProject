@@ -3,14 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="js/vendor.js"></script>
-    <title>WasteLesss Project - Vendors</title>
+    <script defer src="js/vendors.js"></script>
     <link rel="stylesheet" href="css/style.css" />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link href="http://localhost:3444/api/vendor" />
+    <title>WasteLesss Project - Vendors</title>
   </head>
 
   <body>
@@ -19,15 +14,9 @@
       <a class="active" href="http://localhost:3444/">Home</a>
       <a class="active" href="http://localhost:3444/inventory">Inventory</a>
       <a class="active" href="http://localhost:3444/companydivision">Company Division</a>
-      <a class="active" href="http://localhost:3444/vendor">Vendors</a>
+      <a class="active" href="http://localhost:3444/vendors">Vendors</a>
     </div>
 
-
-    <br>
-    <div class="container mx-auto bg-white rounded-lg shadow-md p-8">
-      <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
-        Vendor Data
-      </h1>
       <br>
       <button id="getVendor" class="btn">Get Vendors</button>
       <div id="output"></div><br>
@@ -36,11 +25,6 @@
         <p class="text-gray-500 text-center py-4">Loading data...</p>
       </div>
     </div>
-
-    <div class="wrapper">
-      <button id="getVendor" class="btn">Get Vendors</button>
-      <div id="output"></div>
-
 
       <h2>Add New Vendors</h2>
       <form id="vendorForm" class="vendor-form">
@@ -51,6 +35,7 @@
         <div class="input-box"><label for="vendorname">Vendor Name:</label><input type="text" id="vendorname" required /></div>
         <div class="input-box"><label for="contactinfo">Contact Info:</label><input type="text" id="contactinfo" required /></div>
         <div class="input-box"><label for="address">Address:</label><input type="text" id="address" required /></div>
+
         <button type="submit" class="btn">Add Vendor</button>
       </form>
   

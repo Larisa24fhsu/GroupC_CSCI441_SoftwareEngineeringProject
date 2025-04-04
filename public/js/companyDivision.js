@@ -18,7 +18,6 @@ function getCompanyDivision() {
                           <li>Manager: ${companyDivision.manager}</li>
                       </ul>
                   `;
-                  // Change the above to the same format as the Company Division SQL table
       });
       document.getElementById("output").innerHTML = output;
     });
@@ -44,7 +43,7 @@ document.getElementById("companyDivisionForm").addEventListener("submit", functi
   })
     .then(response => response.json())
     .then(data => {
-      document.getElementById("postResult").innerHTML = `<p>Item Added: ${data.divisionname} (ID: ${data.divisionid})</p>`;
+      document.getElementById("postResult").innerHTML = `<p>Compay Division Added: ${data.divisionname} (ID: ${data.divisionid})</p>`;
       document.getElementById("companyDivisionForm").reset();
     })
     .catch(error => {
