@@ -117,3 +117,38 @@ document
         });
     }
   });
+
+//Delete product
+document
+  .getElementById("deleteInventoryForm")
+  .addEventListener("submit", deleteInventory);
+
+function deleteInventory(e) {
+  e.preventDefault();
+
+  const deleteItemID = document.getElementById("deleteItemID").value;
+
+  fetch(`/api/inventory/${deleteItemID}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => {
+      if (res.ok) {
+        document.getElementById(
+          "deleteResult"
+        ).innerHTML = `<p>Deleted Product Item ID: ${deleteItemID}</p>`;
+        document.getElementById("deleteInventoryForm");
+      } else {
+        document.getElementById(
+          "deleteResult"
+        ).innerHTML = `<p style="color:red;">Product Item ID: ${deleteItemID}, does not exist</p>`;
+        document.getElementById("deleteInventoryForm");
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      document.getElementById(
+        "deleteResult"
+      ).innerHTML = `<p style="color:red;">Failed to DELETE item.</p>`;
+    });
+}
