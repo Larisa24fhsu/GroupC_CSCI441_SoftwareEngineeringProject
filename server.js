@@ -7,7 +7,6 @@ const app = express(); //Call express and place it in the app variable
 
 const path = require("path"); //Import common core modules
 
-
 const cors = require("cors"); //Import Cors module -  Cross Origin Resource Sharing
 
 //Import CorsOptions functions from the CorOptions.js in the config folder
@@ -27,18 +26,6 @@ app.use(logger);
 
 //Use CORS - Cross Origin Resource Sharing
 app.use(cors(corsOptions));
-
-/* 
-const allowedOrigins = process.env.ALLOWED_ORIGINS || "*";
-app.use(
-  cors({
-    origin: allowedOrigins.split(","),
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
- */
 
 //built-in middleware to handle urlencoded data, in other words, from :data
 //‘content-type: application/x-www-form-urlencoded’
