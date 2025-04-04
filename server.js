@@ -9,6 +9,9 @@ const path = require("path"); //Import common core modules
 
 const cors = require("cors"); //Import Cors module -  Cross Origin Resource Sharing
 
+//Import CorsOptions functions from the CorOptions.js in the config folder
+const corsOptions = require("./config/corsOptions");
+
 //Import custom log module
 const { logger } = require("./middleware/logEvents");
 
@@ -20,23 +23,6 @@ const PORT = process.env.PORT || 3444;
 
 //Custom middleware logger
 app.use(logger);
-
-//whitelist for CORS will be for who is allowed to access your api
-const whitelist = [
-  "https://www.google.com",
-  "http://127.0.0.1:5500",
-  "http://localhost:3500",
-];
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  optionsSuccessStatus: 200,
-};
 
 //Use CORS - Cross Origin Resource Sharing
 app.use(cors(corsOptions));
@@ -61,12 +47,15 @@ app.use(express.urlencoded({ extended: false }));
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
-//built-in middleware to to serve static files like CSS
-app.use(express.static(path.join(__dirname, "/public")));
+//built-in middleware to to serve static files like CSS for the public directory
+app.use("/", express.static(path.join(__dirname, "/public")));
+
+//Router for the root directory these are the files in the public folder
+app.use("/", require("./routes/root"));
 
 //Import router files
 const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
-const companyDivisionRoutes = require("./routes/companyDivisionRoutes"); // Import vendor routes
+const companyDivisionRoutes = require("./routes/api/companyDivisionRoutes"); // Import companyDivision route
 const locationRoutes = require("./routes/locationRoutes"); // Import location routes
 const inventoryRoutes = require("./routes/inventoryRoutes"); // Import inventory routes
 const agingInventoryRoutes = require("./routes/agingInventoryRoutes.js"); // Import aginginventory routes
@@ -117,11 +106,6 @@ app.use("/api/userAccounts", userAccountRoutes);
 
 // User shipping routes
 app.use("/api/shippers", shippingRoutes);
-
-//Define Route html
-app.get("^/$|/index(.html)?", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "index.html"));
-});
 
 //Redirect all incorrect traffic to a 404.html page
 app.all("*", (req, res) => {
