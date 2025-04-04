@@ -38,9 +38,12 @@ function getInventory() {
 }
 
 //add new inventory item with POST
+//updated to update item with PUT
 
 document.getElementById("inventoryForm").addEventListener("submit", function (event) {
   event.preventDefault();
+
+  const itemId = document.getElementById("itemid").value;
 
   const inventoryItem = {
     name: document.getElementById("name").value,
@@ -62,20 +65,38 @@ document.getElementById("inventoryForm").addEventListener("submit", function (ev
     holdingcostperyear: parseFloat(document.getElementById("holdingcostperyear").value)
   };
 
-  fetch("/api/inventory", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(inventoryItem)
-  })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById("postResult").innerHTML = `<p>Item Added: ${data.name} (ID: ${data.itemid})</p>`;
-      document.getElementById("inventoryForm").reset();
+  if (itemId) {
+    // UPDATE existing inventory item
+    fetch(`/api/inventory/${itemId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(inventoryItem)
     })
-    .catch(error => {
-      console.error("Error:", error);
-      document.getElementById("postResult").innerHTML = `<p style="color:red;">Failed to add item.</p>`;
-    });
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("postResult").innerHTML = `<p>Updated: ${data.name} (ID: ${data.itemid})</p>`;
+        document.getElementById("inventoryForm").reset();
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        document.getElementById("postResult").innerHTML = `<p style="color:red;">Failed to update item.</p>`;
+      });
+
+  } else {
+    // ADD new inventory item
+    fetch("/api/inventory", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(inventoryItem)
+    })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("postResult").innerHTML = `<p>Added: ${data.name} (ID: ${data.itemid})</p>`;
+        document.getElementById("inventoryForm").reset();
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        document.getElementById("postResult").innerHTML = `<p style="color:red;">Failed to add item.</p>`;
+      });
+  }
 });
