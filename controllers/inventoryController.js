@@ -23,10 +23,10 @@ const createInventory = async (req, res) => {
     
     const {name, sku, batchnumber, category, processedstatus, receiveddate, expirationdate, locationid, isperishable, shelflifedays, alertthresholddays, storagespacerequired, department, timestampreceived, demand, orderingcost, holdingcostperyear} = req.body;
   
-    if ( !name || !sku || !batchnumber || !category || !processedstatus || !receiveddate || !expirationdate || !locationid || !isperishable || !shelflifedays || !alertthresholddays || !storagespacerequired || !department || !timestampreceived || !demand || !orderingcost|| !holdingcostperyear) {
-      return res.status(400).json({ error: "Missing required fields" }); //adding Debug Line
+    if ([name, sku, batchnumber, category, processedstatus, receiveddate, expirationdate, locationid, isperishable, shelflifedays, alertthresholddays, storagespacerequired, department, timestampreceived, demand, orderingcost, holdingcostperyear].some(field => field === undefined || field === null)) {
+      return res.status(400).json({ error: "Missing required fields" });
     }
-  
+    
     try {
       const result = await pool.query(
         'INSERT INTO Inventory (name, sku, batchnumber, category, processedstatus, receiveddate, expirationdate, locationid, isperishable, shelflifedays, alertthresholddays, storagespacerequired, department, timestampreceived, demand, orderingcost, holdingcostperyear) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *',

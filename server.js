@@ -7,6 +7,7 @@ const app = express(); //Call express and place it in the app variable
 
 const path = require("path"); //Import common core modules
 
+
 const cors = require("cors"); //Import Cors module -  Cross Origin Resource Sharing
 
 //Import CorsOptions functions from the CorOptions.js in the config folder

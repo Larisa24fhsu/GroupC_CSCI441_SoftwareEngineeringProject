@@ -291,12 +291,3 @@
 20250403	16:30:30	6efee105-9f14-4a03-9629-0afa65a9d177	GET	undefined	/api/inventory
 20250403	16:30:30	ad94d8b7-8108-4543-a06c-8c100f16e456	GET	undefined	/api/inventory
 20250403	16:30:46	ca12b208-cd5b-419e-b830-3b0a843618ae	GET	undefined	/api/inventory
-20250403	16:32:08	b25d7fba-38b7-4e92-9421-05084e539712	GET	undefined	/inventory
-20250403	16:32:08	d63a4c59-10ce-4f99-97eb-949199f1e6d6	GET	undefined	/js/inventory.js
-20250403	16:32:11	9014a4cd-b4fd-44ef-8fdc-68ce1a4095ca	GET	undefined	/api/inventory
-20250403	17:39:22	e868104d-e7b2-41c0-a508-2d385344754b	GET	undefined	/
-20250403	17:39:22	d0e6496c-6870-4160-8fcf-895f51eec084	GET	undefined	/css/style.css
-20250403	17:39:22	ee87eb7b-7681-4dbc-ab0e-fa555110917e	GET	undefined	/favicon.ico
-20250403	17:39:29	f7d7b3a7-bedd-43c4-8658-7ceca30d3056	GET	undefined	/inventory
-20250403	17:39:29	60e0a468-f03f-4f56-8d53-5ca0f7385006	GET	undefined	/js/inventory.js
-20250403	17:39:31	5d8c1424-a8cc-4117-9b79-73662f62fcb8	GET	undefined	/api/inventory

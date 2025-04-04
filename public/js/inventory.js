@@ -36,3 +36,46 @@ function getInventory() {
       document.getElementById("output").innerHTML = output;
     });
 }
+
+//add new inventory item with POST
+
+document.getElementById("inventoryForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const inventoryItem = {
+    name: document.getElementById("name").value,
+    sku: document.getElementById("sku").value,
+    batchnumber: document.getElementById("batchnumber").value,
+    category: document.getElementById("category").value,
+    processedstatus: document.getElementById("processedstatus").value,
+    receiveddate: document.getElementById("receiveddate").value,
+    expirationdate: document.getElementById("expirationdate").value || null,
+    locationid: parseInt(document.getElementById("locationid").value),
+    isperishable: document.getElementById("isperishable").value === "true",
+    shelflifedays: parseInt(document.getElementById("shelflifedays").value),
+    alertthresholddays: parseInt(document.getElementById("alertthresholddays").value),
+    storagespacerequired: parseInt(document.getElementById("storagespacerequired").value),
+    department: document.getElementById("department").value,
+    timestampreceived: document.getElementById("timestampreceived").value || null,
+    demand: parseInt(document.getElementById("demand").value),
+    orderingcost: parseFloat(document.getElementById("orderingcost").value),
+    holdingcostperyear: parseFloat(document.getElementById("holdingcostperyear").value)
+  };
+
+  fetch("/api/inventory", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(inventoryItem)
+  })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("postResult").innerHTML = `<p>Item Added: ${data.name} (ID: ${data.itemid})</p>`;
+      document.getElementById("inventoryForm").reset();
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      document.getElementById("postResult").innerHTML = `<p style="color:red;">Failed to add item.</p>`;
+    });
+});
