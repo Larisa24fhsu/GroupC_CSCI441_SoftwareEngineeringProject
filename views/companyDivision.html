@@ -9,45 +9,35 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link href="http://localhost:3444/api/locations" />
+    <link href="http://localhost:3444/api/companydivision" />
   </head>
 
   <body>
-    <script>
-      const express = require("express");
-      const { Client } = require("pg");
-
-      const app = express();
-      const port = 3000;
-      const pool = require("../db"); // Assuming you have a database connection in db.js
-    </script>
     <div class="topnav">
-      <a class="active" href="C:\xampp\htdocs\frontend\login.html">Login</a>
-      <a class="active" href="C:\xampp\htdocs\frontend\index.html">Home</a>
-      <a class="active" href="C:\xampp\htdocs\frontend\vendor.html"
-        >Company Division</a
-      >
+      <a class="active" href="http://localhost:3444/login">Login</a>
+      <a class="active" href="http://localhost:3444/">Home</a>
+      <a class="active" href="http://localhost:3444/inventory">Inventory</a>
+      <a class="active" href="http://localhost:3444/companydivision">Company Division</a>
+      <a class="active" href="http://localhost:3444/vendor">Vendors</a>
     </div>
-    <div class="container mx-auto bg-white rounded-lg shadow-md p-8">
-      <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
-        Company Division Data
-      </h1>
-      <div id="table-container" class="rounded-md overflow-hidden">
-        <p class="text-gray-500 text-center py-4">Loading data...</p>
-      </div>
+    <br>
+    <div class="wrapper">
+      <button id="getCompanyDivision" class="btn">Get Company Division</button>
+      <div id="output"></div>
+      <br>
+      
+      <h2>Manage Inventory</h2> 
+      <form id="companyDivisionForm" class="companyDivision-form">
+        <div class="input-box">
+          <label for="itemid">Division ID (for update only):</label>
+          <input type="number" id="divisionid" />
+        </div>
+        <div class="input-box"><label for="divisionname">Division Name:</label><input type="text" id="divisionname" required /></div>
+        <div class="input-box"><label for="manager">Manager:</label><input type="text" id="manager" required /></div>
+        <button type="submit" class="btn">Add Company Division</button>
+      </form>
+  
+      <div id="postResult"></div>
     </div>
-
-    <script>
-      // Fetch data from the server and populate the table
-      fetch("http://localhost:3444/api/locations")
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Fetched data:", data);
-          // Process and display the data as needed
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    </script>
   </body>
 </html>
