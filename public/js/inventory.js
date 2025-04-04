@@ -138,7 +138,9 @@ function deleteInventory(e) {
           "deleteResult"
         ).innerHTML = `<p>Deleted Product Item ID: ${deleteItemID}</p>`;
         document.getElementById("deleteInventoryForm");
+        getInventory();
       } else {
+        document.getElementById("deleteInventoryForm").reset();
         document.getElementById(
           "deleteResult"
         ).innerHTML = `<p style="color:red;">Product Item ID: ${deleteItemID}, does not exist</p>`;
