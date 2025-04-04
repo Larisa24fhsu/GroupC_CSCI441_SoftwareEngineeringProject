@@ -29,7 +29,7 @@ function getVendor() {
 document.getElementById("vendorForm").addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const vendor = {
+  const vendors = {
     name: document.getElementById("vendorname").value,
     sku: document.getElementById("contactinfo").value,
     batchnumber: document.getElementById("address").value
@@ -40,7 +40,7 @@ document.getElementById("vendorForm").addEventListener("submit", function (event
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(vendor)
+    body: JSON.stringify(vendors)
   })
     .then(response => response.json())
     .then(data => {
