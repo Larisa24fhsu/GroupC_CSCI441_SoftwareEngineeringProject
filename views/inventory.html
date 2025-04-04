@@ -4,11 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script defer src="js/inventory.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Inventory</title>
+  </head>
 
     <title>Inventory</title>
   </head>
   <body>
-    <button id="getInventory">Get Inventory</button>
-    <div id="output"></div>
-  </body>
-</html>
+    
+      <div class="wrapper">
+        <button id="getInventory" class="btn">Get Inventory</button>
+        <div id="output"></div>
+
+
+        <h2>Add New Inventory Item</h2>
+        <form id="inventoryForm" class="inventory-form">
+          <div class="input-box"><label for="name">Name:</label><input type="text" id="name" required /></div>
+          <div class="input-box"><label for="sku">SKU:</label><input type="text" id="sku" required /></div>
+          <div class="input-box"><label for="batchnumber">Batch Number:</label><input type="text" id="batchnumber" required /></div>
+          <div class="input-box"><label for="category">Category:</label><input type="text" id="category" required /></div>
+          <div class="input-box"><label for="processedstatus">Processed Status:</label><input type="text" id="processedstatus" required /></div>
+          <div class="input-box"><label for="receiveddate">Received Date:</label><input type="date" id="receiveddate" required /></div>
+          <div class="input-box"><label for="expirationdate">Expiration Date (optional):</label><input type="date" id="expirationdate" /></div>
+          <div class="input-box"><label for="locationid">Location ID:</label><input type="number" id="locationid" required /></div>
+          <div class="input-box">
+            <label for="isperishable">Is Perishable:</label>
+            <select id="isperishable">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+          <div class="input-box"><label for="shelflifedays">Shelf-life Days:</label><input type="number" id="shelflifedays" required /></div>
+          <div class="input-box"><label for="alertthresholddays">Alert Threshold Days:</label><input type="number" id="alertthresholddays" required /></div>
+          <div class="input-box"><label for="storagespacerequired">Storage Space Required:</label><input type="number" id="storagespacerequired" required /></div>
+          <div class="input-box"><label for="department">Department:</label><input type="text" id="department" required /></div>
+          <div class="input-box"><label for="timestampreceived">Timestamp Received (optional):</label><input type="datetime-local" id="timestampreceived" /></div>
+          <div class="input-box"><label for="demand">Demand:</label><input type="number" id="demand" required /></div>
+          <div class="input-box"><label for="orderingcost">Ordering Cost:</label><input type="number" step="0.01" id="orderingcost" required /></div>
+          <div class="input-box"><label for="holdingcostperyear">Holding Cost per Year:</label><input type="number" step="0.01" id="holdingcostperyear" required /></div>
+    
+          <button type="submit" class="btn">Add Inventory Item</button>
+        </form>
+    
+        <div id="postResult"></div>
+      </div>
+    
+    </body>
+    </html>
+    
