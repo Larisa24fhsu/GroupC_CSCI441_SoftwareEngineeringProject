@@ -1,6 +1,6 @@
 //Retrieve JSON information
-/* document.getElementById("getVendor").addEventListener("click", getVendor);
-
+document.getElementById("getVendor").addEventListener("click", getVendor);
+/*
 function getVendor() {
   let output = `Loading Vendors...`;
   document.getElementById("output").innerHTML = output;
@@ -22,7 +22,7 @@ function getVendor() {
       });
       document.getElementById("output").innerHTML = output;
     });
-} */
+} 
 
     document.getElementById('getVendor').addEventListener('click', async () => {
       const outputDiv = document.getElementById('output');
@@ -76,6 +76,56 @@ function getVendor() {
           outputDiv.textContent = 'Failed to load vendor data.';
       }
   });
+
+  */
+
+  function getVendor() {
+    let output = `Loading vendor...`;
+    document.getElementById("output").innerHTML = output;
+  
+    fetch("/api/vendors")
+    .then((res) => res.json())
+      .then((data) => {
+        // Create a table to display vendor data
+        let output = `
+          <h1>Vendors</h1>
+          <table border="1" class="vendor-table">
+            <thead>
+              <tr>
+                <th>Vendor Id</th>
+                <th>Vendor Name</th>
+                <th>Contact Info</th>
+                <th>Contact Info</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+  
+        // Loop through the vendor data and create table rows
+          data.forEach(function (vendor) {
+          output += `
+            <tr>
+              <td>${vendor.vendorid}</td>
+              <td>${vendor.vendorname}</td>
+              <td>${vendor.contactinfo}</td>
+              <td>${vendor.address}</td>
+            </tr>
+          `;
+        });
+  
+        output += `
+            </tbody>
+          </table>
+        `;
+  
+        document.getElementById("output").innerHTML = output;
+      })
+      .catch((error) => {
+        console.error("Error fetching vendor:", error);
+        document.getElementById("output").innerHTML =
+          "<p style='color:red;'>Failed to load vendor data.</p>";
+      });
+  }  
 
 //add new vendor with POST
 

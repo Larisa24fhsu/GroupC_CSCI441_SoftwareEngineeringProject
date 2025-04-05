@@ -1,8 +1,8 @@
 //Retrieve JSON information
 
 
-/* document.getElementById("getInventory").addEventListener("click", getInventory);
-
+document.getElementById("getInventory").addEventListener("click", getInventory);
+/*
 function getInventory() {
   let output = `Loading Inventory...`;
   document.getElementById("output").innerHTML = output;
@@ -39,8 +39,8 @@ function getInventory() {
       document.getElementById("output").innerHTML = output;
     });
 } */
-
-    document.getElementById("getInventory").addEventListener("click", async () => {
+    
+/*     document.getElementById("getInventory").addEventListener("click", async () => {
       const outputDiv = document.getElementById("output");
       outputDiv.innerHTML = ''; // Clear previous content
   
@@ -95,7 +95,83 @@ function getInventory() {
           console.error('Error fetching inventory:', error);
           outputDiv.textContent = 'Failed to load inventory data.';
       }
-  });
+  }); */
+
+  function getInventory() {
+    let output = `Loading Inventory...`;
+    document.getElementById("output").innerHTML = output;
+  
+    fetch("/api/inventory")
+      .then((res) => res.json())
+      .then((data) => {
+        // Create a table to display inventory data
+        let output = `
+          <h1>Inventory</h1>
+          <table border="1" class="inventory-table">
+            <thead>
+              <tr>
+                <th>Item ID</th>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Batch Number</th>
+                <th>Category</th>
+                <th>Processed Status</th>
+                <th>Received Date</th>
+                <th>Expiration Date</th>
+                <th>Location ID</th>
+                <th>Is Perishable</th>
+                <th>Shelf-life Days</th>
+                <th>Alert Threshold Days</th>
+                <th>Storage Space Required</th>
+                <th>Department</th>
+                <th>Timestamp Received</th>
+                <th>Demand</th>
+                <th>Ordering Cost</th>
+                <th>Holding Cost Per Year</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+  
+        // Loop through the inventory data and create table rows
+        data.forEach(function (inventory) {
+          output += `
+            <tr>
+              <td>${inventory.itemid}</td>
+              <td>${inventory.name}</td>
+              <td>${inventory.sku}</td>
+              <td>${inventory.batchnumber}</td>
+              <td>${inventory.category}</td>
+              <td>${inventory.processedstatus}</td>
+              <td>${inventory.receiveddate}</td>
+              <td>${inventory.expirationdate || "N/A"}</td>
+              <td>${inventory.locationid}</td>
+              <td>${inventory.isperishable ? "Yes" : "No"}</td>
+              <td>${inventory.shelflifedays}</td>
+              <td>${inventory.alertthresholddays}</td>
+              <td>${inventory.storagespacerequired}</td>
+              <td>${inventory.department}</td>
+              <td>${inventory.timestampreceived || "N/A"}</td>
+              <td>${inventory.demand}</td>
+              <td>${inventory.orderingcost}</td>
+              <td>${inventory.holdingcostperyear}</td>
+            </tr>
+          `;
+        });
+  
+        output += `
+            </tbody>
+          </table>
+        `;
+  
+        document.getElementById("output").innerHTML = output;
+      })
+      .catch((error) => {
+        console.error("Error fetching inventory:", error);
+        document.getElementById("output").innerHTML =
+          "<p style='color:red;'>Failed to load inventory data.</p>";
+      });
+  }
 
 //add new inventory item with POST
 //updated to update item with PUT
