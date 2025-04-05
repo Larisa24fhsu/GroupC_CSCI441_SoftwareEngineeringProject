@@ -173,3 +173,37 @@ body {
   background-color: #9700ab;
   font-weight: bold;
 }
+
+.company-division-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.company-division-table th, .company-division-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.company-division-table th {
+  background-color: #9700ab;
+  font-weight: bold;
+}
+
+.vendor-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.vendor-table th, .vendor-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.vendor-table th {
+  background-color: #9700ab;
+  font-weight: bold;
+}
