@@ -90,38 +90,34 @@ router.post('/', async (req, res) => {
 });
 
 // Update an inventory item
-router.put('/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   const { id } = req.params;
   
-  console.log("Received Request Body:", req.body); // Debugging log
+  const fields = req.body;
 
-  console.log("Keys in Received Request:", Object.keys(req.body)); //more debugging
-
-  const requiredFields = [
-    "name", "sku", "batchnumber", "category", "processedstatus",
-    "receiveddate", "expirationdate", "locationid", "isperishable",
-    "shelflifedays", "alertthresholddays", "storagespacerequired",
-    "department", "timestampreceived", "demand", "orderingcost", "holdingcostperyear"
-  ];
-
-  const missingFields = requiredFields.filter(field => req.body[field] == null); // checks for both undefined and null - added more debugging due to missing required fields failure
-
-  if (missingFields.length > 0) {
-    console.log("Missing Fields:", missingFields); // Debugging
-    return res.status(400).json({ error: "Missing required fields", missingFields });
+  if (!id) {
+    return res.status(400).json({ error: "Missing item ID" });
   }
 
-  //destruct required fields
-  const { name, sku, batchnumber, category, processedstatus, receiveddate, expirationdate, locationid, isperishable, shelflifedays, alertthresholddays, storagespacerequired, department, timestampreceived, demand, orderingcost, holdingcostperyear } = req.body;
+  // Ensure at least one field is being updated
+  const keys = Object.keys(fields);
+  if (keys.length === 0) {
+    return res.status(400).json({ error: "No fields provided to update" });
+  }
 
+  // Build SET clause dynamically
+  const setClauses = keys.map((key, idx) => `${key} = $${idx + 1}`);
+  const values = Object.values(fields);
 
-  // Construct the update query dynamically based on provided fields
+  const query = `
+    UPDATE inventory
+    SET ${setClauses.join(', ')}
+    WHERE itemid = $${keys.length + 1}
+    RETURNING *
+  `;
+
   try {
-    const result = await pool.query(
-      //timestampreceived = COALESCE($14, NOW()) - use this to fallback to NOW if null
-      'UPDATE Inventory SET name = $1, sku = $2, batchnumber = $3, category = $4, processedstatus = $5, receiveddate = $6, expirationdate = $7, locationid = $8, isperishable = $9, shelflifedays = $10, alertthresholddays = $11, storagespacerequired = $12, department = $13, timestampreceived = COALESCE($14, NOW()), demand = $15, orderingcost = $16, holdingcostperyear = $17 WHERE itemid = $18 RETURNING *',
-      [name, sku, batchnumber, category, processedstatus, receiveddate, expirationdate, locationid, isperishable, shelflifedays, alertthresholddays, storagespacerequired, department, timestampreceived, demand, orderingcost, holdingcostperyear, id]
-    );
+    const result = await pool.query(query, [...values, id]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Inventory item not found' });
@@ -130,31 +126,9 @@ router.put('/:id', async (req, res) => {
     res.json(result.rows[0]);
   } catch (err) {
     console.error("Database Error:", err.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
   }
 });
-
-// PUT tested and functioning
-//{
-// "name": "papers",
-//  "sku": "SKU995569",
-//  "batchnumber": "B989",
-//  "category": "Office Supplies",
-//  "processedstatus": "received",
-//  "receiveddate": "2025-03-30",
-//  "expirationdate": "3000-04-04",
-// "locationid": 1,
-//  "isperishable": false,
-//  "shelflifedays": 55,
-//  "alertthresholddays": 55,
-//  "storagespacerequired": 41,
-//  "department": "Office Suppliess",
-//  "timestampreceived": "2025-03-30T00:00:00.000Z",
-//  "demand": 15,
-//  "orderingcost": 1.32,
-//  "holdingcostperyear": 7.54
-//  }
-
 
 // Delete an inventory item
 router.delete('/:id', async (req, res) => {

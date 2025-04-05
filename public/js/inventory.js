@@ -154,3 +154,60 @@ function deleteInventory(e) {
       ).innerHTML = `<p style="color:red;">Failed to DELETE item.</p>`;
     });
 }
+
+//PATCH update for specific fields
+document.getElementById("patchBtn").addEventListener("click", function () {
+  const itemId = document.getElementById("itemid").value;
+
+  if (!itemId) {
+    document.getElementById("postResult").innerHTML =
+      "<p style='color:red;'>Item ID is required for PATCH updates.</p>";
+    return;
+  }
+
+  // Build PATCH payload only with fields that have a value
+  const patchPayload = {};
+
+  const fields = [
+    "name", "sku", "batchnumber", "category", "processedstatus", "receiveddate",
+    "expirationdate", "locationid", "isperishable", "shelflifedays",
+    "alertthresholddays", "storagespacerequired", "department",
+    "timestampreceived", "demand", "orderingcost", "holdingcostperyear"
+  ];
+
+  fields.forEach((field) => {
+    const element = document.getElementById(field);
+    let value = element.value;
+
+    if (value !== "") {
+      if (field === "isperishable") {
+        value = value === "true";
+      } else if (!isNaN(value) && element.type !== "text") {
+        value = element.type === "number" || element.type === "date" ? Number(value) : value;
+      }
+      patchPayload[field] = value;
+    }
+  });
+
+  fetch(`/api/inventory/${itemId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(patchPayload),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to Update item.");
+      return res.json();
+    })
+    .then((data) => {
+      document.getElementById(
+        "postResult"
+      ).innerHTML = `<p>Updated: ${data.name} (ID: ${data.itemid})</p>`;
+      getInventory();
+    })
+    .catch((error) => {
+      console.error("Update Error:", error);
+      document.getElementById(
+        "postResult"
+      ).innerHTML = `<p style="color:red;">${error.message}</p>`;
+    });
+});
