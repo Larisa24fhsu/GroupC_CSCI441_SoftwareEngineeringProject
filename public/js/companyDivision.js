@@ -23,31 +23,31 @@ function getCompanyDivision() {
     });
 } */
 
-    document.getElementById('getCompanyDivision').addEventListener('click', async () => {
-      const outputDiv = document.getElementById('output');
+    document.getElementById("getCompanyDivision").addEventListener("click", async () => {
+      const outputDiv = document.getElementById("output");
       outputDiv.innerHTML = ''; // Clear previous content
   
       try {
           // Fetch company division data from the server
           const response = await fetch("/api/companyDivision");
           if (!response.ok) {
-              throw new Error(`Error: ${response.status} ${response.statusText}`);
+              throw new Error("Error: ${response.status} ${response.statusText}");
           }
   
           const companyDivisionData = await response.json();
   
           // Create a table
-          const table = document.createElement('table');
-          table.classList.add('company-division-table'); // Add a class for styling
+          const table = document.createElement("table");
+          table.classList.add("company-division-table"); // Add a class for styling
   
           // Create table header
-          const thead = document.createElement('thead');
-          const headerRow = document.createElement('tr');
+          const thead = document.createElement("thead");
+          const headerRow = document.createElement("tr");
           const headers = [
-              'Division ID', 'Division Name', 'Manager'
+              "Division ID", "Division Name", "Manager"
           ];
           headers.forEach(header => {
-              const th = document.createElement('th');
+              const th = document.createElement("th");
               th.textContent = header;
               headerRow.appendChild(th);
           });
@@ -55,13 +55,13 @@ function getCompanyDivision() {
           table.appendChild(thead);
   
           // Create table body
-          const tbody = document.createElement('tbody');
+          const tbody = document.createElement("tbody");
           companyDivisionData.forEach(item => {
-              const row = document.createElement('tr');
+              const row = document.createElement("tr");
               headers.forEach(header => {
-                  const key = header.toLowerCase().replace(/ /g, ''); // Match object keys
-                  const td = document.createElement('td');
-                  td.textContent = item[key] || 'N/A'; // Display 'N/A' if data is missing
+                  const key = header.toLowerCase().replace(/ /g, ""); // Match object keys
+                  const td = document.createElement("td");
+                  td.textContent = item[key] || "N/A"; // Display 'N/A' if data is missing
                   row.appendChild(td);
               });
               tbody.appendChild(row);
@@ -71,8 +71,8 @@ function getCompanyDivision() {
           // Append the table to the output div
           outputDiv.appendChild(table);
       } catch (error) {
-          console.error('Error fetching company divisions:', error);
-          outputDiv.textContent = 'Failed to load company division data.';
+          console.error("Error fetching company divisions:", error);
+          outputDiv.textContent = "Failed to load company division data.";
       }
   });
 

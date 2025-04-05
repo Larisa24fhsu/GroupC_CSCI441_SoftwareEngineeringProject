@@ -40,8 +40,8 @@ function getInventory() {
     });
 } */
 
-    document.getElementById('getInventory').addEventListener('click', async () => {
-      const outputDiv = document.getElementById('output');
+    document.getElementById("getInventory").addEventListener("click", async () => {
+      const outputDiv = document.getElementById("output");
       outputDiv.innerHTML = ''; // Clear previous content
   
       try {
