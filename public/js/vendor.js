@@ -1,83 +1,5 @@
 //Retrieve JSON information
 document.getElementById("getVendor").addEventListener("click", getVendor);
-/*
-function getVendor() {
-  let output = `Loading Vendors...`;
-  document.getElementById("output").innerHTML = output;
-
-  fetch("/api/vendors")
-    .then((res) => res.json())
-    .then((data) => {
-      let output = "<h1>Vendors</h1>";
-      //The foreach is a loop that can be used with an array
-      data.forEach(function (vendor) {
-        output += `
-                      <ul>
-                          <li>Vendor Id: ${vendor.vendorid}</li>
-                          <li>Vendor Name: ${vendor.vendorname}</li>
-                          <li>Contact Info: ${vendor.contactinfo}</li>
-                          <li>Vendor Address: ${vendor.address}</li>
-                      </ul>
-                  `;
-      });
-      document.getElementById("output").innerHTML = output;
-    });
-} 
-
-    document.getElementById('getVendor').addEventListener('click', async () => {
-      const outputDiv = document.getElementById('output');
-      outputDiv.innerHTML = ''; // Clear previous content
-  
-      try {
-          // Fetch vendor data from the server
-          const response = await fetch("/api/vendors");
-          if (!response.ok) {
-              throw new Error(`Error: ${response.status} ${response.statusText}`);
-          }
-  
-          const vendorData = await response.json();
-  
-          // Create a table
-          const table = document.createElement('table');
-          table.classList.add('vendor-table'); // Add a class for styling
-  
-          // Create table header
-          const thead = document.createElement('thead');
-          const headerRow = document.createElement('tr');
-          const headers = [
-              'Vendor ID', 'Vendor Name', 'Contact Info', 'Vendor Address'
-          ];
-          headers.forEach(header => {
-              const th = document.createElement('th');
-              th.textContent = header;
-              headerRow.appendChild(th);
-          });
-          thead.appendChild(headerRow);
-          table.appendChild(thead);
-  
-          // Create table body
-          const tbody = document.createElement('tbody');
-          vendorData.forEach(item => {
-              const row = document.createElement('tr');
-              headers.forEach(header => {
-                  const key = header.toLowerCase().replace(/ /g, ''); // Match object keys
-                  const td = document.createElement('td');
-                  td.textContent = item[key] || 'N/A'; // Display 'N/A' if data is missing
-                  row.appendChild(td);
-              });
-              tbody.appendChild(row);
-          });
-          table.appendChild(tbody);
-  
-          // Append the table to the output div
-          outputDiv.appendChild(table);
-      } catch (error) {
-          console.error('Error fetching vendors:', error);
-          outputDiv.textContent = 'Failed to load vendor data.';
-      }
-  });
-
-  */
 
   function getVendor() {
     let output = `Loading vendor...`;
@@ -132,7 +54,7 @@ function getVendor() {
 document.getElementById("vendorForm").addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const itemId = document.getElementById("vendorid").value;
+  const vendorId = document.getElementById("vendorid").value;
 
   const vendorItem = {
     vendorname: document.getElementById("vendorname").value,
@@ -158,9 +80,9 @@ document.getElementById("vendorForm").addEventListener("submit", function (event
     });
 });
 */
-if (vendorid) {
+if (vendorId) {
       // UPDATE existing vendor
-      fetch(`/api/vendors/${vendorid}`, {
+      fetch(`/api/vendors/${vendorId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(vendorItem),
@@ -171,6 +93,7 @@ if (vendorid) {
             "postResult"
           ).innerHTML = `<p>Updated: ${data.vendorname} (ID: ${data.vendorid})</p>`;
           document.getElementById("vendorForm").reset();
+          getVendor(); // Refresh the vendor list
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -240,9 +163,9 @@ function deleteVendor(e) {
 
 //PATCH update for specific fields
 document.getElementById("patchBtn").addEventListener("click", function () {
-  const vendorid = document.getElementById("vendorid").value;
+  const vendorId = document.getElementById("vendorid").value;
 
-  if (!vendorid) {
+  if (!vendorId) {
     document.getElementById("postResult").innerHTML =
       "<p style='color:red;'>Vendor ID is required for PATCH updates.</p>";
     return;
@@ -258,18 +181,13 @@ document.getElementById("patchBtn").addEventListener("click", function () {
    fields.forEach((field) => {
     const element = document.getElementById(field);
     let value = element.value;
-
+    
     if (value !== "") {
-      if (field === "isperishable") {
-      /*  value = value === "true";
-      } else if (!isNaN(value) && element.type !== "text") {*/
-        value = element.type === "number" || element.type === "date" ? Number(value) : value;
-      }
-      patchPayload[field] = value;
-    }
+        patchPayload[field] = value;
+             }
   }); 
 
-  fetch(`/api/vendors/${vendorid}`, {
+  fetch(`/api/vendors/${vendorId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(patchPayload),
