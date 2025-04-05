@@ -1,5 +1,7 @@
 //Retrieve JSON information
-document.getElementById("getInventory").addEventListener("click", getInventory);
+
+
+/* document.getElementById("getInventory").addEventListener("click", getInventory);
 
 function getInventory() {
   let output = `Loading Inventory...`;
@@ -36,7 +38,64 @@ function getInventory() {
       });
       document.getElementById("output").innerHTML = output;
     });
-}
+} */
+
+    document.getElementById('getInventory').addEventListener('click', async () => {
+      const outputDiv = document.getElementById('output');
+      outputDiv.innerHTML = ''; // Clear previous content
+  
+      try {
+          // Fetch inventory data from the server
+          const response = await fetch("/api/inventory");
+          if (!response.ok) {
+              throw new Error(`Error: ${response.status} ${response.statusText}`);
+          }
+  
+          const inventoryData = await response.json();
+  
+          // Create a table
+          const table = document.createElement('table');
+          table.classList.add('inventory-table'); // Add a class for styling
+  
+          // Create table header
+          const thead = document.createElement('thead');
+          const headerRow = document.createElement('tr');
+          const headers = [
+              'Item ID', 'Name', 'SKU', 'Batch Number', 'Category', 'Processed Status',
+              'Received Date', 'Expiration Date', 'Location ID', 'Is Perishable',
+              'Shelf-life Days', 'Alert Threshold Days', 'Storage Space Required',
+              'Department', 'Timestamp Received', 'Demand', 'Ordering Cost',
+              'Holding Cost per Year'
+          ];
+          headers.forEach(header => {
+              const th = document.createElement('th');
+              th.textContent = header;
+              headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+  
+          // Create table body
+          const tbody = document.createElement('tbody');
+          inventoryData.forEach(item => {
+              const row = document.createElement('tr');
+              headers.forEach(header => {
+                  const key = header.toLowerCase().replace(/ /g, ''); // Match object keys
+                  const td = document.createElement('td');
+                  td.textContent = item[key] || 'N/A'; // Display 'N/A' if data is missing
+                  row.appendChild(td);
+              });
+              tbody.appendChild(row);
+          });
+          table.appendChild(tbody);
+  
+          // Append the table to the output div
+          outputDiv.appendChild(table);
+      } catch (error) {
+          console.error('Error fetching inventory:', error);
+          outputDiv.textContent = 'Failed to load inventory data.';
+      }
+  });
 
 //add new inventory item with POST
 //updated to update item with PUT

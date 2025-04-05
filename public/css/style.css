@@ -156,3 +156,20 @@ body {
   background-color: #9700ab;
   color: white;
 }
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.inventory-table th, .inventory-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.inventory-table th {
+  background-color: #9700ab;
+  font-weight: bold;
+}
