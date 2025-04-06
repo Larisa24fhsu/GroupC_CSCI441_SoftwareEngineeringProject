@@ -1,11 +1,11 @@
 //Retrieve JSON information
  document.getElementById("getCompanyDivision").addEventListener("click", getCompanyDivision);
 
-function getcompanyDivision() {
+function getCompanyDivision() {
   let output = `Loading company division...`;
   document.getElementById("output").innerHTML = output;
 
-  fetch("/api/companyDivision")
+  fetch("/api/companyDivisions")
     .then((res) => res.json())
     .then((data) => {
       // Create a table to display company division data
