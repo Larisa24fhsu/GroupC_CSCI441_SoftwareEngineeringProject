@@ -29,21 +29,30 @@
       <h2>Company Divisions</h2>
       <form id="companyDivisionForm" class="companyDivision-form">
         <div class="input-box">
-          <label for="divisionid">Division ID (for update only):</label>
-          <input type="number" id="divisionid" />
-        </div>
-        <div class="input-box">
-          <label for="divisionname">Division Name:</label
-          ><input type="text" id="divisionname" required />
-        </div>
-        <div class="input-box">
-          <label for="manager">Manager:</label
-          ><input type="text" id="manager" required />
-        </div>
-        <button type="submit" class="btn">Add Company Division</button>
+          <label for="divisionid">Division ID (for update only):</label><input type="number" id="divisionid"/></div>
+        <div class="input-box"><label for="divisionname">Division Name:</label><input type="text" id="divisionname" required/></div>
+        <div class="input-box"><label for="manager">Manager:</label><input type="text" id="manager" required /></div>
+        <button type="submit" class="btn" id="addUpdateBtn">Add Company Division</button>
+        <br/>
+        <br/>
+        <button type="button" class="btn" id="patchBtn">Update Company Division</button>      
       </form>
 
       <div id="postResult"></div>
+      <br />
+      <!-- Delete Company Division Section -->
+      <h2>Delete Company Division</h2> 
+      <form id="deleteDivisionForm" class="deleteDivision-form">
+      <div class="input-box">
+      <label for="deleteDivisionid">Division ID (for delete only):</label>
+      <input type="number" id="deleteDivisionid" />
+      </div>
+      <br/>
+      <button type="submit" class="btn">Delete Company Division</button>
+    </form>
+    <br/>
+    <div id="deleteResult"></div>
+    <br />
     </div>
   </body>
 </html>
