@@ -82,9 +82,7 @@ document.getElementById("getInventory").addEventListener("click", getInventory);
 //updated to update item with PUT
 
 document
-  .getElementById("inventoryForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
+  .getElementById("inventoryForm").addEventListener("submit", function (event) {event.preventDefault();
 
     const itemId = document.getElementById("itemid").value;
 
@@ -99,20 +97,13 @@ document
       locationid: parseInt(document.getElementById("locationid").value),
       isperishable: document.getElementById("isperishable").value === "true",
       shelflifedays: parseInt(document.getElementById("shelflifedays").value),
-      alertthresholddays: parseInt(
-        document.getElementById("alertthresholddays").value
-      ),
-      storagespacerequired: parseInt(
-        document.getElementById("storagespacerequired").value
-      ),
-      department: document.getElementById("department").value,
-      timestampreceived:
+      alertthresholddays: parseInt(document.getElementById("alertthresholddays").value),
+      storagespacerequired: parseInt(document.getElementById("storagespacerequired").value),
+      department: document.getElementById("department").value,timestampreceived:
         document.getElementById("timestampreceived").value || null,
       demand: parseInt(document.getElementById("demand").value),
       orderingcost: parseFloat(document.getElementById("orderingcost").value),
-      holdingcostperyear: parseFloat(
-        document.getElementById("holdingcostperyear").value
-      ),
+      holdingcostperyear: parseFloat(document.getElementById("holdingcostperyear").value),
     };
 
     if (itemId) {

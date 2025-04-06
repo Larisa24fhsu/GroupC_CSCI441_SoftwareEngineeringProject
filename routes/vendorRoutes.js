@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update a vendor
-router.put('/:id', async (req, res) => {
+/* router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { vendorname, contactinfo, address } = req.body;
 
@@ -82,6 +82,46 @@ router.put('/:id', async (req, res) => {
   } catch (err) {
     console.error("Database Error:", err.message);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+}); */
+
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  
+  const fields = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: "Missing vendor ID" });
+  }
+
+  // Ensure at least one field is being updated
+  const keys = Object.keys(fields);
+  if (keys.length === 0) {
+    return res.status(400).json({ error: "No fields provided to update" });
+  }
+
+  // Build SET clause dynamically
+  const setClauses = keys.map((key, idx) => `${key} = $${idx + 1}`);
+  const values = Object.values(fields);
+
+  const query = `
+    UPDATE vendor
+    SET ${setClauses.join(', ')}
+    WHERE vendorid = $${keys.length + 1}
+    RETURNING *
+  `;
+
+  try {
+    const result = await pool.query(query, [...values, id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Vendor not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
   }
 });
 

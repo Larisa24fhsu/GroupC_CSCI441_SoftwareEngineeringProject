@@ -26,10 +26,7 @@
           <!-- PUT Inventory Section -->
           <h2>Manage Inventory</h2> 
           <form id="inventoryForm" class="inventory-form">
-            <div class="input-box">
-              <label for="itemid">Item ID (for update only):</label>
-              <input type="number" id="itemid" />
-            </div>
+            <div class="input-box"><label for="itemid">Item ID (for update only):</label><input type="number" id="itemid"/></div>
             <div class="input-box"><label for="name">Name:</label><input type="text" id="name" required /></div>
             <div class="input-box"><label for="sku">SKU:</label><input type="text" id="sku" required /></div>
             <div class="input-box"><label for="batchnumber">Batch Number:</label><input type="text" id="batchnumber" required /></div>
@@ -38,8 +35,7 @@
             <div class="input-box"><label for="receiveddate">Received Date:</label><input type="date" id="receiveddate" required /></div>
             <div class="input-box"><label for="expirationdate">Expiration Date (optional):</label><input type="date" id="expirationdate" /></div>
             <div class="input-box"><label for="locationid">Location ID:</label><input type="number" id="locationid" required /></div>
-            <div class="input-box">
-              <label for="isperishable">Is Perishable:</label>
+            <div class="input-box"><label for="isperishable">Is Perishable:</label>
               <select id="isperishable">
                 <option value="false">No</option>
                 <option value="true">Yes</option>
@@ -71,7 +67,7 @@
               <input type="number" id="deleteItemID" />
             </div>
             <br/>
-            <button type="submit" class="btn">DELETE Product</button>
+            <button type="submit" class="btn">Delete Product</button>
           </form>
           <br/>
           <div id="deleteResult"></div>

@@ -17,7 +17,7 @@ document.getElementById("getVendor").addEventListener("click", getVendor);
                 <th>Vendor Id</th>
                 <th>Vendor Name</th>
                 <th>Contact Info</th>
-                <th>Contact Info</th>
+                <th>Address</th>
               </tr>
             </thead>
             <tbody>
@@ -51,15 +51,14 @@ document.getElementById("getVendor").addEventListener("click", getVendor);
 
 //add new vendor with POST
 
-document.getElementById("vendorForm").addEventListener("submit", function (event) {
-  event.preventDefault();
+document.getElementById("vendorForm").addEventListener("submit", function (event) {event.preventDefault();
 
   const vendorId = document.getElementById("vendorid").value;
 
   const vendorItem = {
     vendorname: document.getElementById("vendorname").value,
     contactinfo: document.getElementById("contactinfo").value,
-    address: document.getElementById("address").value
+    address: document.getElementById("address").value,
   };
 /*
   fetch("/api/vendors", {
@@ -93,7 +92,6 @@ if (vendorId) {
             "postResult"
           ).innerHTML = `<p>Updated: ${data.vendorname} (ID: ${data.vendorid})</p>`;
           document.getElementById("vendorForm").reset();
-          getVendor(); // Refresh the vendor list
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -178,14 +176,17 @@ document.getElementById("patchBtn").addEventListener("click", function () {
     "vendorname", "contactinfo", "address"
   ];
 
-   fields.forEach((field) => {
+  fields.forEach((field) => {
     const element = document.getElementById(field);
     let value = element.value;
-    
-    if (value !== "") {
-        patchPayload[field] = value;
-             }
-  }); 
+    if (!isNaN(value) && element.type !== "text") {
+      value = element.type === "number" || element.type === "date" ? Number(value) : value;
+    }
+    patchPayload[field] = value;
+  
+  });
+
+  console.log("PATCH Payload:", patchPayload); // Debug log
 
   fetch(`/api/vendors/${vendorId}`, {
     method: "PATCH",
