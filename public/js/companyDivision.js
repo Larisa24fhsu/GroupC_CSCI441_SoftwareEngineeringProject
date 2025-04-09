@@ -73,7 +73,7 @@ document
   })
     .then(response => response.json())
     .then(data => {
-      document.getElementById("postResult").innerHTML = `<p>Compay Division Added: ${data.divisionname} (ID: ${data.divisionid})</p>`;
+      document.getElementById("postResult").innerHTML = `<p>Company Division Added: ${data.divisionname} (ID: ${data.divisionid})</p>`;
       document.getElementById("companyDivisionForm").reset();
     })
     .catch(error => {
