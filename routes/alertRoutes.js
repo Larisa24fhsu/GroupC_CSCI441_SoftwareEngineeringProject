@@ -15,6 +15,18 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Route to manually trigger all alert checks
+router.get('/run-checks', async (req, res) => {
+  try {
+    await runAllAlerts(); // This calls the logic for low stock, expired, and aged inventory
+    res.json({ message: 'Alert checks completed.' });
+  } catch (err) {
+    console.error('Error running alert checks:', err);
+    res.status(500).json({ error: 'Failed to run alert checks' });
+  }
+});
+
+
 // Get alert by ID
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
