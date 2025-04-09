@@ -242,3 +242,25 @@ document.getElementById("patchBtn").addEventListener("click", function () {
       ).innerHTML = `<p style="color:red;">${error.message}</p>`;
     });
 });
+
+// === ALERTS SECTION ===
+// Button click to fetch alerts and display them //Janelle added for testing
+document.getElementById("getAlerts").addEventListener("click", async () => {
+  try {
+    const response = await fetch("/api/alerts");
+    const alerts = await response.json();
+
+    const outputDiv = document.getElementById("alertsOutput");
+    outputDiv.innerHTML = alerts.map(alert => `
+      <div class="alert-box">
+        <strong>${alert.alerttype}</strong> (Item ID: ${alert.affecteditemid})<br/>
+        Status: ${alert.alertstatus} | Dept: ${alert.department}<br/>
+        Triggered on: ${new Date(alert.datetriggered).toLocaleDateString()}
+      </div>
+      <hr/>
+    `).join('');
+  } catch (err) {
+    console.error("Error fetching alerts:", err);
+    document.getElementById("alertsOutput").innerHTML = "Failed to fetch alerts.";
+  }
+});
