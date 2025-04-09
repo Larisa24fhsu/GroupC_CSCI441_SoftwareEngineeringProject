@@ -12,6 +12,7 @@ document.getElementById("getInventory").addEventListener("click", getInventory);
         // Create a table to display inventory data
         let output = `
           <h1>Inventory</h1>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <table border="1" class="inventory-table">
             <thead>
               <tr>
