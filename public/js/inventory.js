@@ -247,21 +247,57 @@ document.getElementById("patchBtn").addEventListener("click", function () {
 // === ALERTS SECTION ===
 // Button click to fetch alerts and display them //Janelle added for testing
 document.getElementById("getAlerts").addEventListener("click", async () => {
+  const outputDiv = document.getElementById("alertsOutput");
+  outputDiv.innerHTML = "<p>Running alert checks...</p>";
+
   try {
+    // STEP 1: Run all alert logic (low stock, aged, expired)
+    await fetch("/api/alerts/run-checks");
+
+    // STEP 2: Fetch updated alerts from the database
     const response = await fetch("/api/alerts");
     const alerts = await response.json();
 
-    const outputDiv = document.getElementById("alertsOutput");
+    // STEP 3: Display them
+    if (!alerts.length) {
+      outputDiv.innerHTML = "<p>No active alerts.</p>";
+      return;
+    }
+
     outputDiv.innerHTML = alerts.map(alert => `
       <div class="alert-box">
-        <strong>${alert.alerttype}</strong> (Item ID: ${alert.affecteditemid})<br/>
+        <strong>${alert.alerttype}</strong> — Item ID: ${alert.affecteditemid}<br/>
         Status: ${alert.alertstatus} | Dept: ${alert.department}<br/>
         Triggered on: ${new Date(alert.datetriggered).toLocaleDateString()}
       </div>
       <hr/>
     `).join('');
   } catch (err) {
-    console.error("Error fetching alerts:", err);
-    document.getElementById("alertsOutput").innerHTML = "Failed to fetch alerts.";
+    console.error("Error running or fetching alerts:", err);
+    outputDiv.innerHTML = "<p style='color:red;'>Failed to get alerts.</p>";
+  }
+});
+
+// Button click to clear all alerts from the database //Janelle added for testing
+document.getElementById("clearAlerts").addEventListener("click", async () => {
+  const confirmed = confirm("Are you sure you want to delete all alerts?");
+  if (!confirmed) return;
+
+  try {
+    const res = await fetch("/api/alerts", {
+      method: "DELETE"
+    });
+
+    if (res.ok) {
+      document.getElementById("clearAlertsOutput").innerHTML =
+        "<p> All alerts have been cleared.</p>";
+      console.log("Alerts cleared.");
+    } else {
+      throw new Error("Failed to delete alerts.");
+    }
+  } catch (err) {
+    console.error("Error clearing alerts:", err);
+    document.getElementById("clearAlertsOutput").innerHTML =
+      "<p style='color:red;'> Error clearing alerts.</p>";
   }
 });

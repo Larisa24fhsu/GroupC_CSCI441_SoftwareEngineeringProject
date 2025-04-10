@@ -113,6 +113,18 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Delete all alerts — Janelle added for testing reset
+router.delete('/', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM Alerts');
+    res.json({ message: 'All alerts deleted.' });
+  } catch (err) {
+    console.error("Error deleting all alerts:", err);
+    res.status(500).json({ error: "Failed to delete all alerts." });
+  }
+});
+
+
 // Route to manually trigger all alert checks
 router.get('/run-checks', async (req, res) => {
   try {
