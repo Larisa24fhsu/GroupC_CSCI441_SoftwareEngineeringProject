@@ -167,7 +167,7 @@ document.getElementById("patchBtn").addEventListener("click", function () {
     let value = element.value;
     if (!isNaN(value) && element.type !== "text") {
       value =
-        element.type === "number" || element.type === "date"
+        element.type === "number" || element.type === "date" || element.type === "current_date"
           ? Number(value)
           : value;
     }
