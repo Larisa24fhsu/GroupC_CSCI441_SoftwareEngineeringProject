@@ -47,7 +47,7 @@ function getAgingInventory() {
     .catch((error) => {
       console.error("Error fetching aging inventory:", error);
       document.getElementById("output").innerHTML =
-        "<p style='color:red;'>Failed to load agingin inventory data.</p>";
+        "<p style='color:red;'>Failed to load aging inventory data.</p>";
     });
 }
 

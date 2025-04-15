@@ -64,24 +64,6 @@ document
       manager: document.getElementById("manager").value,
     };
 
-    /*   fetch("/api/companyDivisions/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(companyDivision)
-  })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById("postResult").innerHTML = `<p>Company Division Added: ${data.divisionname} (ID: ${data.divisionid})</p>`;
-      document.getElementById("companyDivisionForm").reset();
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      document.getElementById("postResult").innerHTML = `<p style="color:red;">Failed to add item.</p>`;
-    });
-}); */
-
     if (divisionId) {
       // UPDATE existing division
       fetch(`/api/companyDivisions/${divisionId}`, {
