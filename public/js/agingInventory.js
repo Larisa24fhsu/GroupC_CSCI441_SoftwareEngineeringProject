@@ -7,7 +7,7 @@ function getAgingInventory() {
   let output = `Loading Aging Inventory...`;
   document.getElementById("output").innerHTML = output;
 
-  fetch("/api/aginginventory/")
+  fetch("/api/aginginventory")
     .then((res) => res.json())
     .then((data) => {
       // Create a table to display Aging Inventory data
@@ -89,7 +89,7 @@ document
         });
     } else {
       // ADD new aging id
-      fetch("/api/aginginventory/", {
+      fetch("/api/aginginventory", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(agingInventory),

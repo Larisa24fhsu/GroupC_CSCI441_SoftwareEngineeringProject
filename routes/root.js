@@ -28,4 +28,8 @@ router.get("/vendor(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "vendor.html"));
 });
 
+router.get("/agingInventory(.html)?", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "views", "agingInventory.html"));
+});
+
 module.exports = router;
