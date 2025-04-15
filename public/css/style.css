@@ -207,3 +207,20 @@ body {
   background-color: #9700ab;
   font-weight: bold;
 }
+
+.Aging-Inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.Aging-Inventory-table th, .Aging-Inventory-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.Aging-Inventory-table th {
+  background-color: #9700ab;
+  font-weight: bold;
+}
