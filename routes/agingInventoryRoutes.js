@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('SELECT * FROM AgingInventory WHERE ageid = $1', [id]);  // Use ageid for primary key
+    const result = await pool.query('SELECT * FROM AgingInventory WHERE agingid = $1', [id]);  // Use agingid for primary key
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'AgingInventory not found' });
     }
@@ -89,7 +89,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('DELETE FROM AgingInventory WHERE ageid = $1 RETURNING *', [id]);  // Use ageid for primary key
+    const result = await pool.query('DELETE FROM AgingInventory WHERE agingid = $1 RETURNING *', [id]);  // Use agingid for primary key
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'AgingInventory not found' });
     }
