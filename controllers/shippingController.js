@@ -30,7 +30,7 @@ const createShipper = async (req, res) => {
   try {
     const result = await pool.query(
       'INSERT INTO Shipping (carriername, trackingnumber, vendorid, estimateddeliverydate) VALUES ($1, $2, $3, $4) RETURNING *',
-      [vendorid, estimateddeliverydate, carriername, trackingnumber]
+      [carriername, trackingnumber, vendorid, estimateddeliverydate]
     );
     console.log("Inserted Shipper",result.rows[0]);
     res.status(201).json(result.rows[0]);
