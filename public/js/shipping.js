@@ -10,6 +10,12 @@ function getShipper() {
   fetch("/api/shippers/")
     .then((res) => res.json())
     .then((data) => {
+      // Check if there are no shippers
+      if (data.length === 0) {
+        document.getElementById("output").innerHTML =
+          "<p>No shippers available.</p>";
+        return;
+      }
       // Create a table to display shipper data
       let output = `
         <h1>Shippers</h1>
