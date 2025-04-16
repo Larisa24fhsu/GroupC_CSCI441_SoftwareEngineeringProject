@@ -48,4 +48,8 @@ router.get("/orderItems(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "orderItems.html"));
 });
 
+router.get("/shipping(.html)?", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "views", "shipping.html"));
+});
+
 module.exports = router;
