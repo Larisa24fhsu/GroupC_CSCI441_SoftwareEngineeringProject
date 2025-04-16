@@ -224,3 +224,20 @@ body {
   background-color: #9700ab;
   font-weight: bold;
 }
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.customer-table th, .customer-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.customer-table th {
+  background-color: #9700ab;
+  font-weight: bold;
+}
