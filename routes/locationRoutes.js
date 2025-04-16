@@ -70,7 +70,7 @@ router.put('/:id', async (req, res) => {
 
   try {
     const result = await pool.query(
-      'UPDATE Location SET address = $1, capacity = $2, WHERE locationid = $3 RETURNING *',
+      'UPDATE Location SET address = $1, capacity = $2 WHERE locationid = $3 RETURNING *',
       [address, capacity, id]
     );
 
@@ -84,6 +84,37 @@ router.put('/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// Partially update a Location
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const fields = req.body;
+
+  if (!fields || Object.keys(fields).length === 0) {
+    return res.status(400).json({ error: "No fields provided to update" });
+  }
+
+  //  Build dynamic SET clause
+  const setClause = Object.keys(fields)
+    .map((field, index) => `${field} = $${index + 1}`)
+    .join(', ');
+  const values = Object.values(fields);
+
+  try {
+    const query = `UPDATE Location SET ${setClause} WHERE locationid = $${values.length + 1} RETURNING *`;
+    const result = await pool.query(query, [...values, id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Location not found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 // Delete a Location
 router.delete('/:id', async (req, res) => {

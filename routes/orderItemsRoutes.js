@@ -71,7 +71,7 @@ router.put('/:id', async (req, res) => {
   try {
     const result = await pool.query(
       'UPDATE OrderItems SET orderid = $1, itemid = $2, quantity = $3 WHERE orderitemid = $4 RETURNING *',
-      [vendorname, contactinfo, address, id]
+      [orderid, itemid, quantity, id]
     );
 
     if (result.rows.length === 0) {
@@ -82,6 +82,36 @@ router.put('/:id', async (req, res) => {
   } catch (err) {
     console.error("Database Error:", err.message);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Partially update an item order
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const fields = req.body;
+
+  if (!fields || Object.keys(fields).length === 0) {
+    return res.status(400).json({ error: "No fields provided to update" });
+  }
+
+  // Dynamically build the SET clause
+  const setClause = Object.keys(fields)
+    .map((field, index) => `${field} = $${index + 1}`)
+    .join(', ');
+  const values = Object.values(fields);
+
+  try {
+    const query = `UPDATE OrderItems SET ${setClause} WHERE orderitemid = $${values.length + 1} RETURNING *`;
+    const result = await pool.query(query, [...values, id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Item order not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

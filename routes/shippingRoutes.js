@@ -40,20 +40,70 @@ router.post('/', async (req, res) => {
 
   const {carriername, trackingnumber, vendorid, estimateddeliverydate} = req.body;
 
-  if (!carriername || !trackingnumber || !estimateddeliverydate || !vendorid) {
+  if (!carriername || !trackingnumber || !vendorid) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   try {
     const result = await pool.query(
       'INSERT INTO Shipping (carriername, trackingnumber, vendorid, estimateddeliverydate) VALUES ($1, $2, $3, $4) RETURNING *',
-      [carriername, trackingnumber, vendorid, estimateddeliverydate]
+      [carriername, trackingnumber, vendorid, estimateddeliverydate || null]
     );
     console.log("Inserted Shipper:", result.rows[0]);
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error("Database Error:", err.message);
     res.status(500).json({ error: "Internal Server Error", details: err.message });
+  }
+});
+
+// Partially update a shipper
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const fields = req.body;
+
+  if (!fields || Object.keys(fields).length === 0) {
+    return res.status(400).json({ error: "No fields provided to update" });
+  }
+
+  // Build dynamic SET clause
+  const setClause = Object.keys(fields)
+    .map((field, index) => `${field} = $${index + 1}`)
+    .join(', ');
+  const values = Object.values(fields);
+
+  try {
+    const query = `UPDATE Shipping SET ${setClause} WHERE shippingid = $${values.length + 1} RETURNING *`;
+    const result = await pool.query(query, [...values, id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Shipper not found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Delete a shipper
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      'DELETE FROM Shipping WHERE shippingid = $1 RETURNING *',
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Shipper not found' });
+    }
+
+    res.json({ message: 'Shipper deleted' });
+  } catch (err) {
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

@@ -70,9 +70,41 @@ router.put('/:id', async (req, res) => {
 
   try {
     const result = await pool.query(
-      'UPDATE AgingInventory SET itemid = $1, agingdate = $2, quantity = $3 WHERE AgingInventory = $4 RETURNING *',
-      [!itemid, agingdate, quantity]
+      'UPDATE AgingInventory SET itemid = $1, agingdate = $2, quantity = $3 WHERE agingid = $4 RETURNING *',
+      [itemid, agingdate, quantity]
     );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'AgingInventory not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+//update partial aginginventory
+router.patch('/:id', async (req, res)=> {
+  const { id } = req.params;
+  const fields = req.body;
+
+  // Return early if no fields are provided
+  if (!fields || Object.keys(fields).length === 0) {
+    return res.status(400).json({ error: "No fields provided to update" });
+  }
+
+  // Build dynamic SET clause 
+  const setClause = Object.keys(fields).map((field, index) => `${field} = $${index + 1}`).join(', ');
+  const values = Object.values(fields);
+
+  try {
+    const query = `UPDATE AgingInventory 
+                  SET ${setClause} 
+                  WHERE agingid = $${values.length + 1} 
+                  RETURNING *`;
+    const result = await pool.query(query, [...values, id]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'AgingInventory not found' });

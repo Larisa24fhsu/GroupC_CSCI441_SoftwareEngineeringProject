@@ -90,6 +90,42 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// Partially update a user account
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const fields = [];
+  const values = [];
+
+  // Dynamically build the query based on fields provided
+  const allowedFields = ['username', 'password'];
+  allowedFields.forEach((field, index) => {
+    if (req.body[field] !== undefined) {
+      fields.push(`${field} = $${fields.length + 1}`);
+      values.push(req.body[field]);
+    }
+  });
+
+  if (fields.length === 0) {
+    return res.status(400).json({ error: 'No valid fields provided for update' });
+  }
+
+  try {
+    const query = `UPDATE useraccount SET ${fields.join(', ')} WHERE userid = $${fields.length + 1} RETURNING *`;
+    values.push(id); // Add the id as the last parameter
+
+    const result = await pool.query(query, values);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Database Error:", err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 // Delete a User
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
