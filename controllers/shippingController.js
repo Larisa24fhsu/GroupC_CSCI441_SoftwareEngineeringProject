@@ -21,15 +21,15 @@ const createShipper = async (req, res) => {
     return res.status(400).json({ error: "Request body is empty or missing" });
   }
   
-  const { vendorid, estimateddeliverydate, carriername, trackingnumber } = req.body;
+  const { carriername, trackingnumber, vendorid, estimateddeliverydate } = req.body;
 
-  if (!vendorid || !estimateddeliverydate || !carriername || !trackingnumber) {
+  if (!carriername || !trackingnumber || !vendorid || !estimateddeliverydate ) {
     return res.status(400).json({ error: "Missing required fields" }); //adding Debug Line
   }
 
   try {
     const result = await pool.query(
-      'INSERT INTO Shipping (vendorid, estimateddeliverydate, carriername, trackingnumber) VALUES ($1, $2, $3) RETURNING *',
+      'INSERT INTO Shipping (carriername, trackingnumber, vendorid, estimateddeliverydate) VALUES ($1, $2, $3, $4) RETURNING *',
       [vendorid, estimateddeliverydate, carriername, trackingnumber]
     );
     console.log("Inserted Shipper",result.rows[0]);
