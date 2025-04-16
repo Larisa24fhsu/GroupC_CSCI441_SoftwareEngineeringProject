@@ -30,6 +30,7 @@ function getLocation() {
         output += `
           <tr>
             <td>${location.locationid}</td>
+            <td>${location.customerid}</td>
             <td>${location.address}</td>
             <td>${location.capacity}</td>
           </tr>
@@ -61,6 +62,7 @@ document
 
     const location = {
       locationid: document.getElementById("locationid").value,
+      customerid: document.getElementById("customerid").value,
       address: document.getElementById("address").value,
       capacity: document.getElementById("capacity").value,
     };
@@ -158,7 +160,7 @@ document.getElementById("patchBtn").addEventListener("click", function () {
   // Build PATCH payload only with fields that have a value
   const patchPayload = {};
 
-  const fields = ["address", "capacity"];
+  const fields = ["customerid", "address", "capacity"];
 
   fields.forEach((field) => {
     const element = document.getElementById(field);
