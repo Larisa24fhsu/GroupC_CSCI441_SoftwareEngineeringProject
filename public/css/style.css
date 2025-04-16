@@ -275,3 +275,20 @@ body {
   background-color: #9700ab;
   font-weight: bold;
 }
+
+.orderItems-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.orderItems-table th, .orderItems-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.orderItems-table th {
+  background-color: #9700ab;
+  font-weight: bold;
+}
