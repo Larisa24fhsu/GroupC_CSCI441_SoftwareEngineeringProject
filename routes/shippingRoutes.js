@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 
   try {
     const result = await pool.query(
-      'INSERT INTO Shipping (carriername, trackingnumber, vendorid, estimateddeliverydate) VALUES ($1, $2, $3) RETURNING *',
+      'INSERT INTO Shipping (carriername, trackingnumber, vendorid, estimateddeliverydate) VALUES ($1, $2, $3, $4) RETURNING *',
       [carriername, trackingnumber, vendorid, estimateddeliverydate]
     );
     console.log("Inserted Shipper:", result.rows[0]);
