@@ -118,9 +118,9 @@ document
 function deleteOrder(e) {
   e.preventDefault();
 
-  const deleteOrderId = document.getElementById("deleteOrderid").value;
+  const deleteOrderId = document.getElementById("deleteOrderId").value;
 
-  fetch(`/api/orders/${deleteOrderid}`, {
+  fetch(`/api/orders/${deleteOrderId}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   })
@@ -128,14 +128,14 @@ function deleteOrder(e) {
       if (res.ok) {
         document.getElementById(
           "deleteResult"
-        ).innerHTML = `<p>Deleted Order ID: ${deleteOrderid}</p>`;
+        ).innerHTML = `<p>Deleted Order ID: ${deleteOrderId}</p>`;
         document.getElementById("deleteOrderForm");
         getOrder();
       } else {
         document.getElementById("deleteOrderForm").reset();
         document.getElementById(
           "deleteResult"
-        ).innerHTML = `<p style="color:red;">Order ID: ${deleteOrderid}, does not exist</p>`;
+        ).innerHTML = `<p style="color:red;">Order ID: ${deleteOrderId}, does not exist</p>`;
         document.getElementById("deleteOrderForm");
       }
     })
