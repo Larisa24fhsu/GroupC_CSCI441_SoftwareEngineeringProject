@@ -44,6 +44,9 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
+  // If estimatedDeliveryDate is an empty string, set it to null
+  const deliveryDate = estimatedDeliveryDate === "" ? null : estimatedDeliveryDate;
+
   try {
     const result = await pool.query(
       'INSERT INTO Shipping (carriername, trackingnumber, vendorid, estimateddeliverydate) VALUES ($1, $2, $3, $4) RETURNING *',
@@ -66,6 +69,13 @@ router.patch('/:id', async (req, res) => {
     return res.status(400).json({ error: "No fields provided to update" });
   }
 
+// Normalize any fields that might have invalid date or "0" values
+if (fields.hasOwnProperty('estimateddeliverydate')) {
+  if (fields.estimateddeliverydate === "0" || fields.estimateddeliverydate === "") {
+    console.log("Converting invalid estimateddeliverydate to null");
+    fields.estimateddeliverydate = null;
+  }
+}
   // Build dynamic SET clause
   const setClause = Object.keys(fields)
     .map((field, index) => `${field} = $${index + 1}`)
@@ -74,6 +84,7 @@ router.patch('/:id', async (req, res) => {
 
   try {
     const query = `UPDATE Shipping SET ${setClause} WHERE shippingid = $${values.length + 1} RETURNING *`;
+    console.log("Generated Query:", query); // Log for debugging
     const result = await pool.query(query, [...values, id]);
 
     if (result.rows.length === 0) {

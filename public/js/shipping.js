@@ -171,16 +171,21 @@ document.getElementById("patchBtn").addEventListener("click", function () {
 
   const fields = ["carriername", "trackingnumber", "vendorid", "estimateddeliverydate"];
 
-  fields.forEach((field) => {
+
+ fields.forEach((field) => {
     const element = document.getElementById(field);
-    let value = element.value;
-    if (!isNaN(value) && element.type !== "text") {
-      value =
-        element.type === "number" || element.type === "date"
-          ? Number(value)
-          : value;
+    let value = element.value.trim(); //add trim
+
+    //add more logic to support css update issue
+    if (field === "estimateddeliverydate") {
+      if (!value || isNaN(Date.parse(value))) {
+        patchPayload[field] = null;
+      } else {
+        patchPayload[field] = value;
+      }
+    } else if (value !== "") {
+      patchPayload[field] = value;
     }
-    patchPayload[field] = value;
   });
 
   console.log("PATCH Payload:", patchPayload); // Debug log
