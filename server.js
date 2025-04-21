@@ -24,6 +24,9 @@ const verifyJWT = require('./middleware/verifyJWT');
 //Import cookie-parser module
 const cookieParser = require('cookie-parser');
 
+// Import credentials middleware
+const credentials = require("./middleware/credentials");
+
 //Define port for webserver
 const PORT = process.env.PORT || 3444;
 
@@ -70,7 +73,6 @@ const orderItemsRoutes = require("./routes/orderItemsRoutes"); // Import  routes
 const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
 const userAccountRoutes = require("./routes/userAccountRoutes"); // Import userAccountRoutes
 const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
-const credentials = require("./middleware/credentials"); // Import credentials middleware
 const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
 
 /* // Sample endpoint to test the server
