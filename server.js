@@ -18,11 +18,21 @@ const { logger } = require("./middleware/logEvents");
 //Import custom log module
 const errorHandler = require("./middleware/errorHandler");
 
+//Import JWT module
+const verifyJWT = require('./middleware/verifyJWT');
+
+//Import cookie-parser module
+const cookieParser = require('cookie-parser');
+
 //Define port for webserver
 const PORT = process.env.PORT || 3444;
 
 //Custom middleware logger
 app.use(logger);
+
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
 
 //Use CORS - Cross Origin Resource Sharing
 app.use(cors(corsOptions));
@@ -35,6 +45,9 @@ app.use(express.urlencoded({ extended: false }));
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
+// Middleware for cookies
+app.use(cookieParser());
+
 //built-in middleware to to serve static files like CSS for the public directory
 app.use("/", express.static(path.join(__dirname, "/public")));
 
@@ -42,6 +55,10 @@ app.use("/", express.static(path.join(__dirname, "/public")));
 app.use("/", require("./routes/root"));
 
 //Import router files
+const registerRoutes = require("./routes/registerRoutes"); // Import register routes
+const authRoutes = require("./routes/authRoutes"); // Import auth routes
+const refreshRoutes = require("./routes/refreshRoutes"); // Import refresh routes
+const logoutRoutes = require("./routes/logoutRoutes"); // Import logout routes
 const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
 const companyDivisionRoutes = require("./routes/companyDivisionRoutes"); // Import companyDivision route
 const locationRoutes = require("./routes/locationRoutes"); // Import location routes
@@ -53,6 +70,7 @@ const orderItemsRoutes = require("./routes/orderItemsRoutes"); // Import  routes
 const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
 const userAccountRoutes = require("./routes/userAccountRoutes"); // Import userAccountRoutes
 const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
+const credentials = require("./middleware/credentials"); // Import credentials middleware
 const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
 
 /* // Sample endpoint to test the server
@@ -61,6 +79,21 @@ app.get("/", (req, res) => {
 }); */
 
 //Define endpoints
+
+// Use auth routes
+app.use("/api/auth", authRoutes);
+
+// Use register routes
+app.use("/api/register", registerRoutes);
+
+// Use refresh routes
+app.use("/api/refresh", refreshRoutes);
+
+// Use logout routes
+app.use("/api/logout", logoutRoutes);
+
+// Use verifyJWT middleware for protected routes
+app.use(verifyJWT);
 
 // Use vendor routes
 app.use("/api/vendors", vendorRoutes);
