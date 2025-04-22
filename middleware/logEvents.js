@@ -25,7 +25,8 @@ const logEvents = async (message, logName) => {
 
 const logger = (req, res, next) => {
   logEvents(`${req.method}\t${req.headers.origin}\t${req.url}`, "reqLog.txt");
-  console.log(`${req.method} ${req.path}`);
+  //Logging calls to debug
+  //console.log(`${req.method} ${req.path}`);
   next();
 };
 
