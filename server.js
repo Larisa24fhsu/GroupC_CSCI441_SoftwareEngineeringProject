@@ -94,6 +94,12 @@ app.use("/api/refresh", refreshRoutes);
 // Use logout routes
 app.use("/api/logout", logoutRoutes);
 
+// User alert routes
+app.use("/api/alerts", alertRoutes);
+
+// Use inventory routes
+app.use("/api/inventory", inventoryRoutes);
+
 // Use verifyJWT middleware for protected routes
 app.use(verifyJWT);
 
@@ -106,9 +112,6 @@ app.use("/api/companyDivisions", companyDivisionRoutes);
 // Use location routes
 app.use("/api/locations", locationRoutes);
 
-// Use inventory routes
-app.use("/api/inventory", inventoryRoutes);
-
 // User aginginventory routes
 app.use("/api/aginginventory", agingInventoryRoutes);
 
@@ -120,9 +123,6 @@ app.use("/api/orders", orderRoutes);
 
 // User orderItemsRoutes
 app.use("/api/orderItems", orderItemsRoutes);
-
-// User alert routes
-app.use("/api/alerts", alertRoutes);
 
 // Pavel - Use userAccountRoutes
 app.use("/api/userAccounts", userAccountRoutes);
