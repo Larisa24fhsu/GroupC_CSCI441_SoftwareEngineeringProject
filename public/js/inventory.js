@@ -301,3 +301,35 @@ document.getElementById("clearAlerts").addEventListener("click", async () => {
       "<p style='color:red;'> Error clearing alerts.</p>";
   }
 });
+
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const response = await fetch('/api/alerts/run-checks');
+    const data = await response.json();
+
+    // If alert messages are returned, show the modal
+    if (data && data.alerts && data.alerts.length > 0) {
+      showAlertModal(data.alerts);
+    }
+  } catch (err) {
+    console.error('Failed to fetch alerts:', err);
+  }
+});
+
+function showAlertModal(alerts) {
+  const modal = document.getElementById('alertModal');
+  const alertList = document.getElementById('alertList');
+
+  alertList.innerHTML = ''; // Clear any old alerts
+  alerts.forEach(alert => {
+    const li = document.createElement('li');
+    li.textContent = alert;
+    alertList.appendChild(li);
+  });
+
+  modal.style.display = 'block';
+}
+
+function closeAlertModal() {
+  document.getElementById('alertModal').style.display = 'none';
+}

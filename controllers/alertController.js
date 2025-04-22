@@ -45,9 +45,10 @@ const createAlert = async (req, res) => {
 const checkLowStockAlerts = async () => {
   try {
     const lowStockItems = await pool.query(`
-      SELECT itemID FROM Inventory 
-      WHERE demand < 10; -- You can customize this threshold
+      SELECT itemID, name FROM Inventory 
+      WHERE demand < 10;
     `);
+    
 
     for (const row of lowStockItems.rows) {
       await pool.query(`
@@ -85,9 +86,10 @@ const checkExpiredInventoryAlerts = async () => {
 const checkAgedInventoryAlerts = async () => {
   try {
     const agedItems = await pool.query(`
-      SELECT itemID FROM Inventory 
+      SELECT itemID, name FROM Inventory 
       WHERE CURRENT_DATE - receivedDate > alertThresholdDays;
     `);
+    
 
     for (const row of agedItems.rows) {
       await pool.query(`
@@ -101,13 +103,59 @@ const checkAgedInventoryAlerts = async () => {
   }
 };
 
-// Optional: Helper to run all alerts together
-const runAllAlerts = async () => {
-  await checkLowStockAlerts();
-  await checkExpiredInventoryAlerts();
-  await checkAgedInventoryAlerts();
-};
+const runAllAlerts = async (req, res) => {
+  let alertMessages = [];
 
+  try {
+    // === LOW STOCK ALERTS ===
+    const lowStockItems = await pool.query(`
+      SELECT itemid, name FROM Inventory 
+      WHERE demand < 10;
+    `);
+    for (const row of lowStockItems.rows) {
+      await pool.query(`
+        INSERT INTO Alerts (alerttype, affecteditemid, datetriggered, alertstatus, department)
+        VALUES ('Low Stock', $1, CURRENT_DATE, 'Active', 'Inventory Control')
+        ON CONFLICT DO NOTHING;
+      `, [row.itemid]);
+      alertMessages.push(`${row.name} stock is below the threshold!`);
+    }
+
+    // === EXPIRED INVENTORY ALERTS ===
+    const expiredItems = await pool.query(`
+      SELECT itemid, name FROM Inventory 
+      WHERE expirationdate IS NOT NULL AND expirationdate < CURRENT_DATE;
+    `);
+    for (const row of expiredItems.rows) {
+      await pool.query(`
+        INSERT INTO Alerts (alerttype, affecteditemid, datetriggered, alertstatus, department)
+        VALUES ('Expired Inventory', $1, CURRENT_DATE, 'Active', 'Quality Assurance')
+        ON CONFLICT DO NOTHING;
+      `, [row.itemid]);
+      alertMessages.push(`${row.name} is expired!`);
+    }
+
+    // === AGED INVENTORY ALERTS ===
+    const agedItems = await pool.query(`
+      SELECT itemid, name FROM Inventory 
+      WHERE CURRENT_DATE - receiveddate > alertthresholddays;
+    `);
+    for (const row of agedItems.rows) {
+      await pool.query(`
+        INSERT INTO Alerts (alerttype, affecteditemid, datetriggered, alertstatus, department)
+        VALUES ('Aged Inventory', $1, CURRENT_DATE, 'Active', 'Inventory Control')
+        ON CONFLICT DO NOTHING;
+      `, [row.itemid]);
+      alertMessages.push(`${row.name} has been on the shelf too long!`);
+    }
+
+    res.json({ alerts: alertMessages });
+
+  } catch (err) {
+    console.error('runAllAlerts error:', err);
+    res.status(500).json({ error: 'Failed to run alert checks' });
+  }
+};
 
 module.exports = {
   getAllAlerts,
