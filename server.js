@@ -100,6 +100,9 @@ app.use("/api/alerts", alertRoutes);
 // Use inventory routes
 app.use("/api/inventory", inventoryRoutes);
 
+// Pavel - Use userAccountRoutes
+app.use("/api/userAccounts", userAccountRoutes);
+
 // Use verifyJWT middleware for protected routes
 app.use(verifyJWT);
 
@@ -123,9 +126,6 @@ app.use("/api/orders", orderRoutes);
 
 // User orderItemsRoutes
 app.use("/api/orderItems", orderItemsRoutes);
-
-// Pavel - Use userAccountRoutes
-app.use("/api/userAccounts", userAccountRoutes);
 
 // User shipping routes
 app.use("/api/shippers", shippingRoutes);
