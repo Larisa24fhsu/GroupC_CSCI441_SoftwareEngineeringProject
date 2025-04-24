@@ -103,6 +103,8 @@ app.use("/api/inventory", inventoryRoutes);
 // Pavel - Use userAccountRoutes
 app.use("/api/userAccounts", userAccountRoutes);
 
+app.use('/auth', authRoutes);
+
 // Use verifyJWT middleware for protected routes
 app.use(verifyJWT);
 
