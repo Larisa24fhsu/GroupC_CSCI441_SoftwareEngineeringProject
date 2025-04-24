@@ -57,6 +57,10 @@ app.use("/", express.static(path.join(__dirname, "/public")));
 //Router for the root directory these are the files in the public folder
 app.use("/", require("./routes/root"));
 
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "register.html"));
+});
+
 //Import router files
 const registerRoutes = require("./routes/registerRoutes"); // Import register routes
 const authRoutes = require("./routes/authRoutes"); // Import auth routes
@@ -102,8 +106,6 @@ app.use("/api/inventory", inventoryRoutes);
 
 // Pavel - Use userAccountRoutes
 app.use("/api/userAccounts", userAccountRoutes);
-
-app.use('/auth', authRoutes);
 
 // Use verifyJWT middleware for protected routes
 app.use(verifyJWT);
