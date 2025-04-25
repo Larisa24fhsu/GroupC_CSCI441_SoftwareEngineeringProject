@@ -107,19 +107,32 @@ const runAllAlerts = async (req, res) => {
   let alertMessages = [];
 
   try {
-    // === LOW STOCK ALERTS ===
-    const lowStockItems = await pool.query(`
-      SELECT itemid, name FROM Inventory 
-      WHERE demand < 10;
-    `);
-    for (const row of lowStockItems.rows) {
-      await pool.query(`
-        INSERT INTO Alerts (alerttype, affecteditemid, datetriggered, alertstatus, department)
-        VALUES ('Low Stock', $1, CURRENT_DATE, 'Active', 'Inventory Control')
-        ON CONFLICT DO NOTHING;
-      `, [row.itemid]);
-      alertMessages.push(`${row.name} stock is below the threshold!`);
-    }
+// === LOW STOCK ALERTS WITH EOQ CALCULATION ===
+const lowStockItems = await pool.query(`
+  SELECT itemid, name, demand, orderingcost, holdingcostperyear FROM Inventory 
+  WHERE demand < 10;
+`);
+
+for (const row of lowStockItems.rows) {
+  const { demand, orderingcost, holdingcostperyear } = row;
+  
+  let eoq;
+  if (demand && orderingcost && holdingcostperyear) {
+    eoq = Math.sqrt((2 * demand * orderingcost) / holdingcostperyear);
+  }
+
+  await pool.query(`
+    INSERT INTO Alerts (alerttype, affecteditemid, datetriggered, alertstatus, department)
+    VALUES ('Low Stock', $1, CURRENT_DATE, 'Active', 'Inventory Control')
+    ON CONFLICT DO NOTHING;
+  `, [row.itemid]);
+
+  if (eoq) {
+    alertMessages.push(`⚠️ ${row.name} stock is low! We recommend ordering about ${Math.round(eoq)} units.`);
+  } else {
+    alertMessages.push(`⚠️ ${row.name} stock is low! Reorder suggestion not available.`);
+  }
+}
 
     // === EXPIRED INVENTORY ALERTS ===
     const expiredItems = await pool.query(`
