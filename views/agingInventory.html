@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script defer src="js/agingInventory.js"></script>
-    <link rel="stylesheet" href="css/style.css" /> 
+    <link rel="stylesheet" href="css/style.css" />
     <title>WasteLesss Project - Aging Inventory</title>
   </head>
 
@@ -31,31 +31,46 @@
       <h2>Company Divisions</h2>
       <form id="agingInventoryForm" class="agingInventory-form">
         <div class="input-box">
-          <label for="agingid">Aging ID (for update only):</label><input type="number" id="agingid"/></div>
-        <div class="input-box"><label for="itemid">Item ID:</label><input type="number" id="itemid" required/></div>
-        <div class="input-box"><label for="agingdate">Aging Date:</label><input type="datetime" id="agingdate" required/></div>
-        <div class="input-box"><label for="quantity">Quantity:</label><input type="number" id="quantity" required /></div>
-        <button type="submit" class="btn" id="addUpdateBtn">Add Aging Inventory</button>
-        <br/>
-        <br/>
-        <button type="button" class="btn" id="patchBtn">Update Aging Inventory</button>      
+          <label for="agingid">Aging ID (for update only):</label
+          ><input type="number" id="agingid" />
+        </div>
+        <div class="input-box">
+          <label for="itemid">Item ID:</label
+          ><input type="number" id="itemid" required />
+        </div>
+        <div class="input-box">
+          <label for="agingdate">Aging Date:</label
+          ><input type="datetime" id="agingdate" required />
+        </div>
+        <div class="input-box">
+          <label for="quantity">Quantity:</label
+          ><input type="number" id="quantity" required />
+        </div>
+        <button type="submit" class="btn" id="addUpdateBtn">
+          Add Aging Inventory
+        </button>
+        <br />
+        <br />
+        <button type="button" class="btn" id="patchBtn">
+          Update Aging Inventory
+        </button>
       </form>
 
       <div id="postResult"></div>
       <br />
       <!-- Delete Aging Inventory Section -->
-      <h2>Delete Aging Inventory</h2> 
+      <h2>Delete Aging Inventory</h2>
       <form id="deleteAgingForm" class="deleteAging-Form">
-      <div class="input-box">
-      <label for="deleteAgingId">Aging ID (for delete only):</label>
-      <input type="number" id="deleteAgingId" />
-      </div>
-      <br/>
-      <button type="submit" class="btn">Delete Aging Inventory</button>
-    </form>
-    <br/>
-    <div id="deleteResult"></div>
-    <br />
+        <div class="input-box">
+          <label for="deleteAgingId">Aging ID (for delete only):</label>
+          <input type="number" id="deleteAgingId" />
+        </div>
+        <br />
+        <button type="submit" class="btn">Delete Aging Inventory</button>
+      </form>
+      <br />
+      <div id="deleteResult"></div>
+      <br />
     </div>
   </body>
 </html>

@@ -9,6 +9,8 @@ const path = require("path"); //Import common core modules
 
 const cors = require("cors"); //Import Cors module -  Cross Origin Resource Sharing
 
+const bodyParser = require("body-parser"); //Import body-parser module
+
 //Import CorsOptions functions from the CorOptions.js in the config folder
 const corsOptions = require("./config/corsOptions");
 
@@ -19,10 +21,10 @@ const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
 
 //Import JWT module
-const verifyJWT = require('./middleware/verifyJWT');
+const verifyJWT = require("./middleware/verifyJWT");
 
 //Import cookie-parser module
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
 // Import credentials middleware
 const credentials = require("./middleware/credentials");
@@ -51,6 +53,9 @@ app.use(express.json());
 // Middleware for cookies
 app.use(cookieParser());
 
+//body-parser middleware
+app.use(bodyParser.json());
+
 //built-in middleware to to serve static files like CSS for the public directory
 app.use("/", express.static(path.join(__dirname, "/public")));
 
@@ -73,6 +78,7 @@ const orderItemsRoutes = require("./routes/orderItemsRoutes"); // Import  routes
 const alertRoutes = require("./routes/alertRoutes"); // Import alert routes
 const userAccountRoutes = require("./routes/userAccountRoutes"); // Import userAccountRoutes
 const shippingRoutes = require("./routes/shippingRoutes"); // Import shipping routes
+const subscribeRoute = require("./routes/subscribeRoute"); //Import Subscriber route testing push notifications
 const pool = require("./db"); // Assuming you have db.js set up to handle your PostgreSQL connection
 
 /* // Sample endpoint to test the server
@@ -99,6 +105,9 @@ app.use("/api/alerts", alertRoutes);
 
 // Use inventory routes
 app.use("/api/inventory", inventoryRoutes);
+
+// Use inventory routes
+app.use("/api/subscribe", subscribeRoute);
 
 // Use verifyJWT middleware for protected routes
 app.use(verifyJWT);

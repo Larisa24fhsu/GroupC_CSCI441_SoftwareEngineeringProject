@@ -52,4 +52,8 @@ router.get("/shipping(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "shipping.html"));
 });
 
+router.get("/worker(.js)?", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "js", "worker.js"));
+});
+
 module.exports = router;
