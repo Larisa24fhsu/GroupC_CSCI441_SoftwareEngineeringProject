@@ -89,7 +89,7 @@ const handleRegister = async (req, res) => {
 
         // Insert the new user into the database
         await pool.query(
-            'INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3)',
+            'INSERT INTO useraccount (username, password) VALUES ($1, $2)',
             [username, hashedPassword, JSON.stringify(['user'])] // Default role is 'user'
         );
 

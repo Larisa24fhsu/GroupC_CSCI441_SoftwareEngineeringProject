@@ -5,6 +5,11 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     const password = document.getElementById('password-input').value;
     const repeatPassword = document.getElementById('repeat-password-input').value;
 
+    if (password !== repeatPassword) {
+        alert('Passwords do not match!');
+        return;
+    }
+
     try {
         const response = await fetch('/auth/register', {
             method: 'POST',
