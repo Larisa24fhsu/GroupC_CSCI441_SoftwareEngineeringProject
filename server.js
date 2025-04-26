@@ -108,6 +108,9 @@ app.use("/api/logout", logoutRoutes);
 app.use("/api/alerts", alertRoutes);
 
 // Use inventory routes
+app.use("/api/subscribe", subscribeRoute);
+
+// Use inventory routes
 app.use("/api/inventory", inventoryRoutes);
 
 // Pavel - Use userAccountRoutes
