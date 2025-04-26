@@ -2,14 +2,6 @@
 const dotenv = require("dotenv");
 dotenv.config(); // Loads environment variables from .env file
 
-const webPush = require("web-push"); // Import web-push library
-
-webPush.setVapidDetails(
-  'mailto:your-email@example.com',
-  process.env.VAPID_PUBLIC_KEY,
-  process.env.VAPID_PRIVATE_KEY
-);
-
 const express = require("express"); //Import express
 const app = express(); //Call express and place it in the app variable
 
