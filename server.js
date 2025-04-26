@@ -62,6 +62,10 @@ app.use("/", express.static(path.join(__dirname, "/public")));
 //Router for the root directory these are the files in the public folder
 app.use("/", require("./routes/root"));
 
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "register.html"));
+});
+
 //Import router files
 const registerRoutes = require("./routes/registerRoutes"); // Import register routes
 const authRoutes = require("./routes/authRoutes"); // Import auth routes
@@ -106,8 +110,8 @@ app.use("/api/alerts", alertRoutes);
 // Use inventory routes
 app.use("/api/inventory", inventoryRoutes);
 
-// Use inventory routes
-app.use("/api/subscribe", subscribeRoute);
+// Pavel - Use userAccountRoutes
+app.use("/api/userAccounts", userAccountRoutes);
 
 // Use verifyJWT middleware for protected routes
 app.use(verifyJWT);
@@ -132,9 +136,6 @@ app.use("/api/orders", orderRoutes);
 
 // User orderItemsRoutes
 app.use("/api/orderItems", orderItemsRoutes);
-
-// Pavel - Use userAccountRoutes
-app.use("/api/userAccounts", userAccountRoutes);
 
 // User shipping routes
 app.use("/api/shippers", shippingRoutes);
