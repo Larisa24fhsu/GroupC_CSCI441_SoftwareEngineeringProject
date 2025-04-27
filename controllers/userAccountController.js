@@ -1,4 +1,4 @@
-const pool = require("../db"); // Database connection
+/* const pool = require("../db"); // Database connection
 
 // Get all users
 const getAllUsers = async (req, res) => {
@@ -99,4 +99,4 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserById,
-};
+}; */

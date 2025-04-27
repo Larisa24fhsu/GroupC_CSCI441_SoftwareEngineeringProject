@@ -89,10 +89,13 @@ const handleRegister = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        console.log('Query:', 'INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3)');
+        console.log('Parameters:', [username, hashedPassword, JSON.stringify(['user'])]);
+
         // Insert the new user into the database
         await pool.query(
             'INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3)',
-            [username, hashedPassword, JSON.stringify(['roles'])] // Default role is 'user'
+            [username, hashedPassword, JSON.stringify(['user'])] // Default role is 'user'
         );
 
         res.status(201).json({ message: 'User registered successfully.' });
