@@ -29,7 +29,7 @@ INSERT INTO OrderItems (orderID, itemID, quantity) VALUES (1, 1, 3);
 INSERT INTO Alerts (alertType, affectedItemID, alertStatus, department) VALUES ('Low Stock', 1, 'Active', 'Inventory');
 
 -- Sample Data for UserAccount
-INSERT INTO UserAccount (username, password) VALUES ('admin', 'encryptedpassword123');
+INSERT INTO UserAccount (username, password, roles) VALUES ('admin', 'encryptedpassword123', 'user');
 
 -- Sample Data for Shipping
 INSERT INTO Shipping (carrierName, trackingNumber, vendorID, estimatedDeliveryDate) VALUES ('QuickShip', 'TRACK123', 1, CURRENT_DATE + 3);
