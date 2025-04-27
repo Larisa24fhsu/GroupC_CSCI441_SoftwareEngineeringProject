@@ -3,7 +3,7 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 const pool = require('../db');  // Assuming the database connection is in db.js
 
-router.post('/', authController.handleLogin);
+router.post('/register', authController.handleLogin);
 
 router.post('/register', authController.handleRegister);
 
