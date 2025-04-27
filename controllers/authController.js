@@ -8,6 +8,7 @@ const fsPromises = require('fs').promises;
 const path = require('path');
 
 const handleLogin = async (req, res) => {
+    console.log('handleLogin called'); // Debug log
     const { user, pwd } = req.body;
     if (!user || !pwd) {
         return res.status(400).json({ message: 'Username and password are required.' });
@@ -89,13 +90,13 @@ const handleRegister = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        console.log('Query:', 'INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3)');
-        console.log('Parameters:', [username, hashedPassword, JSON.stringify(['user'])]);
+        console.log('Query:', 'INSERT INTO useraccount (username, password) VALUES ($1, $2)');
+        console.log('Parameters:', [username, hashedPassword]);
 
         // Insert the new user into the database
         await pool.query(
-            'INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3)',
-            [username, hashedPassword, JSON.stringify(['user'])] // Default role is 'user'
+            'INSERT INTO useraccount (username, password) VALUES ($1, $2)',
+            [username, hashedPassword] // Default role is 'user'
         );
 
         res.status(201).json({ message: 'User registered successfully.' });

@@ -117,7 +117,7 @@ app.use("/api/inventory", inventoryRoutes);
 app.use("/api/userAccounts", userAccountRoutes);
 
 // Use verifyJWT middleware for protected routes
-app.use(verifyJWT);
+// app.use(verifyJWT);
 
 // Use vendor routes
 app.use("/api/vendors", vendorRoutes);

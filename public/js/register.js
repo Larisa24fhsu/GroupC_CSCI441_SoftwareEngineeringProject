@@ -11,13 +11,18 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     }
 
     try {
-        const response = await fetch('/auth/register', {
+        const response = await fetch('/api/register', { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password, repeatPassword }),
         });
 
-        const result = await response.json();
+        let result;
+        try {
+            result = await response.json(); // Attempt to parse JSON
+        } catch (err) {
+            result = { message: await response.text() }; // Fallback to plain text
+        }
 
         if (response.ok) {
             document.getElementById('registerResult').innerHTML = `<p style="color:green;">${result.message}</p>`;
