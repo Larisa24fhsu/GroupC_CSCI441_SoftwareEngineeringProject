@@ -68,6 +68,8 @@ const handleLogin = async (req, res) => {
 const handleRegister = async (req, res) => {
     const { username, password, repeatPassword } = req.body;
 
+    console.log('Request body:', req.body); // Debug log
+
     // Validate input
     if (!username || !password || !repeatPassword) {
         return res.status(400).json({ message: 'All fields are required.' });
