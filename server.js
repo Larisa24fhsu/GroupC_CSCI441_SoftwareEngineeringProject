@@ -93,7 +93,7 @@ app.get("/", (req, res) => {
 //Define endpoints
 
 // Use auth routes
-app.use("/api/auth", authRoutes);
+app.use("auth", authRoutes);
 
 // Use register routes
 app.use("/api/register", registerRoutes);
