@@ -1,65 +1,102 @@
-// controllers customer Controller.js
-const pool = require("../db"); // Assuming you have a database connection in db.js
+const pool = require("../db"); // Database connection
 
-const data = {
-  employees: require('../model/employees.json'), //update to the right path
-  setEmployees: function (data) { this.employees = data }
-}
+// Get all users
+const getAllUsers = async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM useraccount");
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error fetching users:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
-const getAllEmployees = (req, res) => {
-  res.json(data.employees);
-}
+// Create a new user
+const createNewUser = async (req, res) => {
+  const { username, password, roles } = req.body;
 
-const createNewEmployee = (req, res) => {
-  const newEmployee = {
-      id: data.employees?.length ? data.employees[data.employees.length - 1].id + 1 : 1,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname
+  if (!username || !password || !roles) {
+    return res.status(400).json({ error: "Username, password, and roles are required." });
   }
 
-  if (!newEmployee.firstname || !newEmployee.lastname) {
-      return res.status(400).json({ 'message': 'First and last names are required.' });
+  try {
+    const result = await pool.query(
+      "INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3) RETURNING *",
+      [username, password, JSON.stringify(roles)]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error("Error creating user:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Update a user
+const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { username, password, roles } = req.body;
+
+  if (!username || !password || !roles) {
+    return res.status(400).json({ error: "Username, password, and roles are required." });
   }
 
-  data.setEmployees([...data.employees, newEmployee]);
-  res.status(201).json(data.employees);
-}
+  try {
+    const result = await pool.query(
+      "UPDATE useraccount SET username = $1, password = $2, roles = $3 WHERE id = $4 RETURNING *",
+      [username, password, JSON.stringify(roles), id]
+    );
 
-const updateEmployee = (req, res) => {
-  const employee = data.employees.find(emp => emp.id === parseInt(req.body.id));
-  if (!employee) {
-      return res.status(400).json({ "message": `Employee ID ${req.body.id} not found` });
-  }
-  if (req.body.firstname) employee.firstname = req.body.firstname;
-  if (req.body.lastname) employee.lastname = req.body.lastname;
-  const filteredArray = data.employees.filter(emp => emp.id !== parseInt(req.body.id));
-  const unsortedArray = [...filteredArray, employee];
-  data.setEmployees(unsortedArray.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
-  res.json(data.employees);
-}
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "User not found." });
+    }
 
-const deleteEmployee = (req, res) => {
-  const employee = data.employees.find(emp => emp.id === parseInt(req.body.id));
-  if (!employee) {
-      return res.status(400).json({ "message": `Employee ID ${req.body.id} not found` });
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Error updating user:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  const filteredArray = data.employees.filter(emp => emp.id !== parseInt(req.body.id));
-  data.setEmployees([...filteredArray]);
-  res.json(data.employees);
-}
+};
 
-const getEmployee = (req, res) => {
-  const employee = data.employees.find(emp => emp.id === parseInt(req.params.id));
-  if (!employee) {
-      return res.status(400).json({ "message": `Employee ID ${req.params.id} not found` });
+// Delete a user
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query("DELETE FROM useraccount WHERE id = $1 RETURNING *", [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res.json({ message: "User deleted successfully." });
+  } catch (err) {
+    console.error("Error deleting user:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  res.json(employee);
-}
+};
+
+// Get a single user by ID
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query("SELECT * FROM useraccount WHERE id = $1", [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Error fetching user:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 module.exports = {
-  getAllEmployees,
-  createNewEmployee,
-  updateEmployee,
-  deleteEmployee,
-  getEmployee
-}
+  getAllUsers,
+  createNewUser,
+  updateUser,
+  deleteUser,
+  getUserById,
+};
