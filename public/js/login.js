@@ -1,10 +1,3 @@
-document.getElementById('logout').addEventListener('click', () => {
-    // Clear the authentication token
-    localStorage.removeItem("authToken");
-  
-    // Redirect to the login page
-    window.location.href = "./login.html";
-  });
 
 document.querySelector('form').addEventListener('submit', async (e) => {
     e.preventDefault(); // Prevent the default form submission
