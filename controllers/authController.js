@@ -45,7 +45,7 @@ const handleLogin = async (req, res) => {
             );
 
             // Save the refresh token in the database
-            await pool.query('UPDATE useraccount SET refreshtoken = $1 WHERE username = $2', [refreshToken, user]);
+            // await pool.query('UPDATE useraccount SET refreshtoken = $1 WHERE username = $2', [refreshToken, user]);
 
             // Send the refresh token as an HTTP-only cookie
             res.cookie('jwt', refreshToken, {
