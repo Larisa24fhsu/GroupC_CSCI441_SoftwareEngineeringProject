@@ -6,6 +6,16 @@
     <script defer src="js/vendor.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <title>WasteLesss Project - Vendors</title>
+    <script>
+      // Check if the user is logged in
+      const token = localStorage.getItem("authToken");
+    
+      if (!token) {
+        // Redirect to the login page if no token is found
+        window.location.href = "./login.html";
+      }
+    </script>
+    <script src="/js/global.js"></script>
   </head>
 
   <body>
@@ -21,6 +31,7 @@
       <a class="active" href="./orderItems.html">Order Items</a>
       <a class="active" href="./location.html">Location</a>
       <a class="active" href="./shipping.html">Shipping</a>
+      <button id="logout" class="logout-btn">Logout</button>
     </div>
 
     <br />

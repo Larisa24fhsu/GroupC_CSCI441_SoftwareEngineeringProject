@@ -147,14 +147,30 @@ body {
   font-size: 17px;
 }
 
+.topnav a.active {
+  background-color: #9700ab;
+  color: white;
+}
+
 .topnav a:hover {
   background-color: #ddd;
   color: black;
 }
 
-.topnav a.active {
+.logout-btn {
+  float: right;
   background-color: #9700ab;
   color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  border: none; /* Removes the border */
+}
+
+.logout-btn:hover {
+  background-color: #ddd;
+  color: black;
 }
 
 .inventory-table {

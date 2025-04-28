@@ -20,6 +20,13 @@ const { logger } = require("./middleware/logEvents");
 //Import custom log module
 const errorHandler = require("./middleware/errorHandler");
 
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "register.html"));
+});
+
+const registerRoutes = require("./routes/registerRoutes"); // Import register routes
+const authRoutes = require("./routes/authRoutes"); // Import auth routes
+
 //Import JWT module
 const verifyJWT = require("./middleware/verifyJWT");
 
@@ -62,13 +69,7 @@ app.use("/", express.static(path.join(__dirname, "/public")));
 //Router for the root directory these are the files in the public folder
 app.use("/", require("./routes/root"));
 
-app.get("/register", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "register.html"));
-});
-
 //Import router files
-const registerRoutes = require("./routes/registerRoutes"); // Import register routes
-const authRoutes = require("./routes/authRoutes"); // Import auth routes
 const refreshRoutes = require("./routes/refreshRoutes"); // Import refresh routes
 const logoutRoutes = require("./routes/logoutRoutes"); // Import logout routes
 const vendorRoutes = require("./routes/vendorRoutes"); // Import vendor routes
@@ -162,3 +163,4 @@ app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
