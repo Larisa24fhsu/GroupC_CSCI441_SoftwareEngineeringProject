@@ -5,7 +5,7 @@ document.querySelector('form').addEventListener('submit', async (e) => {
     const password = document.querySelector('input[placeholder="Password"]').value;
 
     // Assume successful login and token is returned as "token"
-const token = "yeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VybmFtZSI6InRlc3Q1MTIzNDEyMyIsInJvbGVzIjpbXX0sImlhdCI6MTc0NTgwMDc4OSwiZXhwIjoxNzQ1ODg3MTg5fQ.SfctYpHMC14qx07h1TfnObLN7Kge0BT7mCKkewHAs1w"; // Replace with the actual token from your login process
+    const token = result.accessToken;
 
 // Store the token in local storage.
 localStorage.setItem("authToken", token);
@@ -15,7 +15,7 @@ localStorage.setItem("authToken", token);
 const storedToken = localStorage.getItem("authToken");
 
 // make the request to /dashboard
-fetch('http://localhost:3444/dashboard', {
+fetch('http://localhost:3444/index.html', {
   method: 'GET',
   headers: {
     // Add the Authorization header with the token.
