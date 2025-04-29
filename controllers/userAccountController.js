@@ -1,4 +1,4 @@
-/* const pool = require("../db"); // Database connection
+const pool = require("../db"); // Database connection
 
 // Get all users
 const getAllUsers = async (req, res) => {
@@ -11,7 +11,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Create a new user
+/* // Create a new user
 const createNewUser = async (req, res) => {
   const { username, password, roles } = req.body;
 
@@ -29,7 +29,7 @@ const createNewUser = async (req, res) => {
     console.error("Error creating user:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
-};
+}; */
 
 // Update a user
 const updateUser = async (req, res) => {
@@ -95,8 +95,7 @@ const getUserById = async (req, res) => {
 
 module.exports = {
   getAllUsers,
-  createNewUser,
   updateUser,
   deleteUser,
   getUserById,
-}; */
+};

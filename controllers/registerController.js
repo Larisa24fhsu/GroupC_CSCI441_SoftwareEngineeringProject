@@ -5,7 +5,7 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 
 const handleRegister = async (req, res) => {
-    const { username, password, repeatPassword } = req.body;
+    const { username, password, repeatPassword, roles } = req.body;
 
     console.log('Request body:', req.body); // Debug log
 
@@ -28,13 +28,16 @@ const handleRegister = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        console.log('Query:', 'INSERT INTO useraccount (username, password) VALUES ($1, $2)');
-        console.log('Parameters:', [username, hashedPassword]);
+        // Default to 'User' role if no roles are provided
+        const userRoles = roles ? JSON.stringify(roles) : JSON.stringify(['User']);
 
-        // Insert the new user into the database
+        console.log('Query:', 'INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3)');
+        console.log('Parameters:', [username, hashedPassword, userRoles]);
+
+        // Insert the new user into the database with the default role
         await pool.query(
-            'INSERT INTO useraccount (username, password) VALUES ($1, $2)',
-            [username, hashedPassword] // Default role is 'user'
+            'INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3)',
+            [username, hashedPassword, userRoles]
         );
 
         res.status(201).json({ message: 'User registered successfully.' });
