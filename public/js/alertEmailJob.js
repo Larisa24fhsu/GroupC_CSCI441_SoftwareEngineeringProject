@@ -46,7 +46,7 @@ async function sendAlertEmail(subject, message) {
 
   const mailOptions = {
     from: '"WasteLess App" <larisa.smith11@gmail.com>',
-    to: 'lbsmith2@mail.fhsu.edu',
+    to: 'lbsmith2@mail.fhsu.edu, p_martinez5@mail.fhsu.edu, j_holcomb@mail.fhsu.edu, brtilley@mail.fhsu.edu',
     subject: subject,
     text: message,
   };
