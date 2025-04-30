@@ -62,4 +62,5 @@ cron.schedule('0 0 * * *', () => {
   timezone: "America/Detroit" // or your local timezone
 });
 
-fetchAlertsAndSendEmail(); // <-- this runs the email logic immediately
+//fetchAlertsAndSendEmail(); // <-- this runs the email logic immediately
+//uncomment if want to check email without waiting for the time
