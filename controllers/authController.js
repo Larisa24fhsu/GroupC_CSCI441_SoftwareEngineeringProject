@@ -45,7 +45,7 @@ const handleLogin = async (req, res) => {
             );
 
             // Save the refresh token in the database
-            // await pool.query('UPDATE useraccount SET refreshtoken = $1 WHERE username = $2', [refreshToken, user]);
+            await pool.query('UPDATE useraccount SET refreshtoken = $1 WHERE username = $2', [refreshToken, user]);
 
             // Send the refresh token as an HTTP-only cookie
             res.cookie('jwt', refreshToken, {
@@ -67,7 +67,7 @@ const handleLogin = async (req, res) => {
 };
 
 const handleRegister = async (req, res) => {
-    const { username, password, repeatPassword } = req.body;
+    const { username, password, repeatPassword, roles } = req.body;
 
     console.log('Request body:', req.body); // Debug log
 
@@ -90,13 +90,15 @@ const handleRegister = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        console.log('Query:', 'INSERT INTO useraccount (username, password) VALUES ($1, $2)');
-        console.log('Parameters:', [username, hashedPassword]);
+        const userRoles = roles ? JSON.stringify(roles) : JSON.stringify(['User']);
+
+        console.log('Query:', 'INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3)');
+        console.log('Parameters:', [username, hashedPassword, roles]);
 
         // Insert the new user into the database
         await pool.query(
-            'INSERT INTO useraccount (username, password) VALUES ($1, $2)',
-            [username, hashedPassword] // Default role is 'user'
+            'INSERT INTO useraccount (username, password, roles) VALUES ($1, $2, $3)',
+            [username, hashedPassword, roles] // Default role is 'user'
         );
 
         res.status(201).json({ message: 'User registered successfully.' });
