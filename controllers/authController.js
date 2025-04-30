@@ -49,6 +49,8 @@ const handleLogin = async (req, res) => {
         { expiresIn: "1d" }
       );
 
+    //   res.json({ accessToken, roles: foundUser.roles });
+
       // Save the refresh token in the database
       await pool.query(
         "UPDATE useraccount SET refreshtoken = $1 WHERE username = $2",
