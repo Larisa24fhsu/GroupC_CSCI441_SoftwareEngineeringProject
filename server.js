@@ -167,7 +167,7 @@ app.listen(PORT, () => {
 //for sending emails commenting out until error can be fixed
 //const emailRoutes = require('./routes/emailRoutes');
 //app.use('/controller/emailController', emailRoutes);
-//require('./public/js/alertEmailJob');
+require('./public/js/alertEmailJob');
 
 
 

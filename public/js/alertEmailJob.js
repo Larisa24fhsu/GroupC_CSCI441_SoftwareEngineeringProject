@@ -6,15 +6,22 @@ const nodemailer = require('nodemailer'); // if you're using nodemailer to send 
 // Function to fetch alerts and send email
 async function fetchAlertsAndSendEmail() {
   try {
-    const alertsResult = await pool.query('SELECT itemname, reason FROM alerts WHERE status = $1', ['active']); 
+    
+    // Join Alerts with Inventory to get item names
+    const alertsResult = await pool.query(`
+      SELECT A.alerttype, A.datetriggered, A.department, I.name AS itemname
+      FROM Alerts A
+      JOIN Inventory I ON A.affecteditemid = I.itemid
+      WHERE A.alertstatus = 'Active'
+    `);
 
     const alerts = alertsResult.rows;
 
     if (alerts.length > 0) {
       let message = "The following inventory items have alerts:\n\n";
       alerts.forEach(alert => {
-        message += `- ${alert.itemname}: ${alert.reason}\n`;
-      });
+     message += `- [${alert.alerttype}] ${alert.itemname} (Triggered on ${alert.datetriggered}, Dept: ${alert.department})\n`;
+});
 
       // Send the email
       await sendAlertEmail("WasteLess Inventory Alert", message);
