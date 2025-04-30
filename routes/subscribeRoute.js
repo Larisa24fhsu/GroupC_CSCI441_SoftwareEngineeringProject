@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const webPush = require("web-push");
+require('dotenv').config();
+
 
 //VAPID keys (Type the following in terminal to generate VAPID keys : ./node_modules/.bin/web-push generate-vapid-keys)
 //When deploying insert an a environment variable
