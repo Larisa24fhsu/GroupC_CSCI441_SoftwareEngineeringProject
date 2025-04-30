@@ -164,10 +164,10 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-//for sending emails
-const emailRoutes = require('./routes/emailRoutes');
-app.use('/controller/emailController', emailRoutes);
-require('./public/js/alertEmailJob');
+//for sending emails commenting out until error can be fixed
+//const emailRoutes = require('./routes/emailRoutes');
+//app.use('/controller/emailController', emailRoutes);
+//require('./public/js/alertEmailJob');
 
 
 
