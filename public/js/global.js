@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define role-based access for pages
     const pageAccess = {
         '/shipping.html': ['Vendor', 'User'], // Vendor and Admin can access
-        // '/user.html': ['User', 'Vendor', 'Admin'] // All roles can access
+        '/index.html': ['User', 'Vendor', 'Admin'] // All roles can access
     };
 
     // Check if the current page has restricted access
