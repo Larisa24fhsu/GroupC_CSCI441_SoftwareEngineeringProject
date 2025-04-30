@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const roles = JSON.parse(localStorage.getItem("roles")); // Retrieve roles from localStorage
     const currentPage = window.location.pathname;
+
+    // Skip authentication check for login and register pages
+    if (currentPage === '/login.html' || currentPage === '/register.html') {
+        return;
+    }
 
     // Check if the user is authenticated
     const token = localStorage.getItem("authToken");
@@ -7,20 +13,41 @@ document.addEventListener('DOMContentLoaded', () => {
         // Redirect to the login page if no token is found
         window.location.href = "./login.html";
     }
-    // Skip authentication check for login and register pages
-    if (currentPage === '/login.html' || currentPage === '/register.html') {
-        return;
-    }
 
     // Logout functionality
     const logoutButton = document.getElementById('logout');
     if (logoutButton) {
         logoutButton.addEventListener('click', () => {
-            // Clear the authentication token
+            // Clear the authentication token and username
             localStorage.removeItem("authToken");
+            localStorage.removeItem("username");
 
             // Redirect to the login page
             window.location.href = "./login.html";
         });
+    }
+
+    // Display the username in the navbar
+    const username = localStorage.getItem("username");
+    if (username) {
+        const usernameDisplay = document.getElementById('username-display');
+        if (usernameDisplay) {
+            usernameDisplay.textContent = `Welcome, ${username}`;
+        }
+    }
+
+    // Define role-based access for pages
+    const pageAccess = {
+        '/shipping.html': ['Vendor', 'User'], // Vendor and Admin can access
+        // '/user.html': ['User', 'Vendor', 'Admin'] // All roles can access
+    };
+
+    // Check if the current page has restricted access
+    if (pageAccess[currentPage]) {
+        const hasAccess = roles.includes('User') || roles.some(role => pageAccess[currentPage].includes(role));
+        if (!hasAccess) {
+            alert('You do not have access to this page.');
+            window.location.href = './unauthorized.html'; // Redirect to an unauthorized page
+        }
     }
 });

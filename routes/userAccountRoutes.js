@@ -50,7 +50,7 @@ router.post("/", async (req, res) => {
   try {
     const result = await pool.query(
       "INSERT INTO useraccount (username, password, roles ) VALUES ($1, $2, $3) RETURNING *",
-      [username, password] // Parameters passed as an array
+      [username, password, roles] // Parameters passed as an array
     );
     console.log("Inserted New User", result.rows[0]);
     res.status(201).json(result.rows[0]);

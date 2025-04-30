@@ -173,6 +173,18 @@ body {
   color: black;
 }
 
+.username-display {
+  float: right;
+  background-color: #9700ab;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  border: none; /* Removes the border */
+  margin-right: 15px; /* Adds space to the right */
+}
+
 .inventory-table {
   width: 100%;
   border-collapse: collapse;

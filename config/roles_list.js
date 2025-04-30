@@ -1,7 +1,7 @@
-const ROLES_LIST = {
+const roles_list = {
     "Admin": 5150,
-    "Editor": 1984,
+    "Vendor": 1984,
     "User": 2001
 }
 
-module.exports = ROLES_LIST
+module.exports = roles_list
