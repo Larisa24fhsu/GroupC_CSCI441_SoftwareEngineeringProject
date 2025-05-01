@@ -30,6 +30,9 @@ const authRoutes = require("./routes/authRoutes"); // Import auth routes
 //Import JWT module
 const verifyJWT = require("./middleware/verifyJWT");
 
+// Exclude static assets from authentication
+app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // No Content
+
 //Import cookie-parser module
 const cookieParser = require("cookie-parser");
 

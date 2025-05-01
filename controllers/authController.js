@@ -31,8 +31,7 @@ const handleLogin = async (req, res) => {
     // Evaluate the password
     const match = await bcrypt.compare(pwd, foundUser.password);
     if (match) {
-      const roles = foundUser.roles ? JSON.parse(foundUser.roles) : []; // Parse roles if stored as JSON
-      // Create JWTs
+      const roles = foundUser.roles ? JSON.parse(foundUser.roles) : []; // Parse roles as JSON
       const accessToken = jwt.sign(
         {
           UserInfo: {
@@ -43,30 +42,8 @@ const handleLogin = async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "1d" }
       );
-      const refreshToken = jwt.sign(
-        { username: foundUser.username },
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "1d" }
-      );
 
-    //   res.json({ accessToken, roles: foundUser.roles });
-
-      // Save the refresh token in the database
-      await pool.query(
-        "UPDATE useraccount SET refreshtoken = $1 WHERE username = $2",
-        [refreshToken, user]
-      );
-
-      // Send the refresh token as an HTTP-only cookie
-      res.cookie("jwt", refreshToken, {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-
-      // Send the access token in the response
-      res.json({ accessToken, username: foundUser.username });
+      res.json({ accessToken, username: foundUser.username, roles: roles }); // Include token in the response
     } else {
       res.sendStatus(401); // Unauthorized
     }

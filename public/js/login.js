@@ -16,16 +16,16 @@ document.querySelector('form').addEventListener('submit', async (e) => {
         const result = await response.json();
 
         if (response.ok) {
-            // Extract the token and username from the server's response
             const token = result.accessToken;
-            const username = result.username; // Ensure the server sends the username in the response
+            const username = result.username;
+            const roles = result.roles; // Ensure the server sends roles in the response
 
-            // Store the token and username in local storage
+            // Store the token, username, and roles in local storage
             localStorage.setItem("authToken", token);
             localStorage.setItem("username", username);
+            localStorage.setItem("roles", JSON.stringify(roles)); // Store roles as a JSON string
 
             alert('Login successful!');
-            // Redirect to another page or perform further actions
             window.location.href = './index.html';
         } else {
             alert(`Error: ${result.message}`);
