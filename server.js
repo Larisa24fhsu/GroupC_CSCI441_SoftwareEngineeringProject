@@ -109,7 +109,7 @@ app.use("/api/refresh", refreshRoutes);
 app.use("/api/logout", logoutRoutes);
 
 // Use verifyJWT middleware for protected routes
-app.use(verifyJWT);
+// app.use(verifyJWT);
 
 // User alert routes
 app.use("/api/alerts", alertRoutes);
