@@ -1,24 +1,20 @@
 document.querySelector('form').addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevent the default form submission
-
+    e.preventDefault();
     const username = document.querySelector('input[placeholder="Username"]').value;
     const password = document.querySelector('input[placeholder="Password"]').value;
 
     try {
-        // Send login request to the server
         const response = await fetch('/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ user: username, pwd: password }),
         });
 
-        // Parse the response JSON
         const result = await response.json();
 
         if (response.ok) {
             const token = result.accessToken;
-            const username = result.username;
-            const roles = result.roles; // Ensure the server sends roles in the response
+            const roles = Array.isArray(result.roles) ? result.roles : [result.roles]; // Ensure roles is an array
 
             // Store the token, username, and roles in local storage
             localStorage.setItem("authToken", token);

@@ -108,6 +108,9 @@ app.use("/api/refresh", refreshRoutes);
 // Use logout routes
 app.use("/api/logout", logoutRoutes);
 
+// Use verifyJWT middleware for protected routes
+app.use(verifyJWT);
+
 // User alert routes
 app.use("/api/alerts", alertRoutes);
 
@@ -119,9 +122,6 @@ app.use("/api/inventory", inventoryRoutes);
 
 // Pavel - Use userAccountRoutes
 app.use("/api/userAccounts", userAccountRoutes);
-
-// Use verifyJWT middleware for protected routes
-app.use(verifyJWT);
 
 // Use vendor routes
 app.use("/api/vendors", vendorRoutes);
@@ -146,6 +146,8 @@ app.use("/api/orderItems", orderItemsRoutes);
 
 // User shipping routes
 app.use("/api/shippers", shippingRoutes);
+
+
 
 //Redirect all incorrect traffic to a 404.html page
 app.all("*", (req, res) => {

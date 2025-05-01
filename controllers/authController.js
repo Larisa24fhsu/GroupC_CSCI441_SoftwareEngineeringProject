@@ -36,14 +36,14 @@ const handleLogin = async (req, res) => {
         {
           UserInfo: {
             username: foundUser.username,
-            roles: roles,
+            roles: roles, // Include roles in the token
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "1d" }
       );
 
-      res.json({ accessToken, username: foundUser.username, roles: roles }); // Include token in the response
+      res.json({ accessToken, username: foundUser.username, roles: roles }); // Include roles in the response
     } else {
       res.sendStatus(401); // Unauthorized
     }
