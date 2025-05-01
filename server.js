@@ -68,6 +68,7 @@ app.use(bodyParser.json());
 
 //built-in middleware to to serve static files like CSS for the public directory
 app.use("/", express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, 'views'))); // Serve files from the "views" directory
 
 //Router for the root directory these are the files in the public folder
 app.use("/", require("./routes/root"));
@@ -146,8 +147,6 @@ app.use("/api/orderItems", orderItemsRoutes);
 
 // User shipping routes
 app.use("/api/shippers", shippingRoutes);
-
-
 
 //Redirect all incorrect traffic to a 404.html page
 app.all("*", (req, res) => {
