@@ -53,13 +53,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define role-based access for pages
     const pageAccess = {
-        '/shipping.html': [1984, 2001, 5150], // Vendor and User can access
-        '/index.html': [1984, 2001, 5150] // All roles can access
+        '/shipping.html': [1984, 5150], // Vendor and Admin can access
+        '/index.html': [1984, 5150]    // Vendor and Admin can access
     };
 
     // Check if the current page has restricted access
+    if (roles.includes(2001)) {
+        // Role 2001 has global access, skip further checks
+        console.log('Role 2001 detected. Access granted to all pages.');
+        return;
+    }
+
     if (pageAccess[currentPage]) {
-        const hasAccess = roles.some(role => pageAccess[currentPage].includes(role)); // Strictly check roles
+        const hasAccess = roles.some(role => pageAccess[currentPage].includes(role)); // Check roles for the current page
         if (!hasAccess) {
             alert('You do not have access to this page.');
             window.location.href = './unauthorized.html'; // Redirect to an unauthorized page
