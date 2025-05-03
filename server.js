@@ -31,7 +31,7 @@ const authRoutes = require("./routes/authRoutes"); // Import auth routes
 const verifyJWT = require("./middleware/verifyJWT");
 
 // Exclude static assets from authentication
-app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // No Content
+app.get("/favicon.ico", (req, res) => res.sendStatus(204)); // No Content
 
 //Import cookie-parser module
 const cookieParser = require("cookie-parser");
@@ -68,7 +68,7 @@ app.use(bodyParser.json());
 
 //built-in middleware to to serve static files like CSS for the public directory
 app.use("/", express.static(path.join(__dirname, "/public")));
-app.use(express.static(path.join(__dirname, 'views'))); // Serve files from the "views" directory
+app.use(express.static(path.join(__dirname, "views"))); // Serve files from the "views" directory
 
 //Router for the root directory these are the files in the public folder
 app.use("/", require("./routes/root"));
@@ -116,7 +116,7 @@ app.use("/api/logout", logoutRoutes);
 app.use("/api/alerts", alertRoutes);
 
 // Use inventory routes
-app.use("/api/subscribe", subscribeRoute);
+//app.use("/api/subscribe", subscribeRoute);
 
 // Use inventory routes
 app.use("/api/inventory", inventoryRoutes);
@@ -171,7 +171,4 @@ app.listen(PORT, () => {
 //for sending emails commenting out until error can be fixed
 //const emailRoutes = require('./routes/emailRoutes');
 //app.use('/controller/emailController', emailRoutes);
-require('./public/js/alertEmailJob');
-
-
-
+require("./public/js/alertEmailJob");
