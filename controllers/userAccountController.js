@@ -1,3 +1,5 @@
+//written and tested by Pavel Martinez
+
 const pool = require("../db"); // Database connection
 
 // Get all users

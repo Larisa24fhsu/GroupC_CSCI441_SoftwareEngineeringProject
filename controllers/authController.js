@@ -1,3 +1,5 @@
+//written and tested by Brandon Tilley
+
 const pool = require("../db"); // Assuming you have a database connection in db.js
 const roles = require("../config/roles_list"); //Import roles
 const bcrypt = require("bcrypt");

@@ -1,3 +1,5 @@
+//written and tested by Larisa Smith
+
 // controllers/shippingController.js
 const pool = require('../db');  // Assuming you have a database connection in db.js
 

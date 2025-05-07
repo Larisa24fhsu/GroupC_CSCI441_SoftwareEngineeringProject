@@ -1,3 +1,5 @@
+//written and tested by Larisa Smith
+
 // routes/inventoryRoutes.js
 const express = require('express');
 const router = express.Router();

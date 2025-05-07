@@ -1,3 +1,6 @@
+//originally added just to test back end, not used for actual project
+//written by Larisa Smith
+
 const pool = require('./db');
 
 async function testQuery() {

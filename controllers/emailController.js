@@ -1,3 +1,6 @@
+//written and tested by Larisa Smith
+
+
 const nodemailer = require('nodemailer');
 
 // Create reusable transporter object

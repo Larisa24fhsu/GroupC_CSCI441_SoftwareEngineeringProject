@@ -1,3 +1,6 @@
+//written and tested by Pavel Martinez, Brandon Tilley, Janelle Holcomb, Larisa Smith
+
+
 // server.js
 const dotenv = require("dotenv");
 dotenv.config(); // Loads environment variables from .env file

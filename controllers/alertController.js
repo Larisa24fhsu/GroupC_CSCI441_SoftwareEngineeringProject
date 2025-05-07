@@ -1,3 +1,5 @@
+//written and tested and by Larisa Smith and Janelle Holcomb
+
 // controllers/alertController.js
 const pool = require('../db');  // Assuming you have a database connection in db.js
 

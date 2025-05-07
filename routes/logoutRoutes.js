@@ -1,3 +1,5 @@
+//written and tested by Brandon Tilley
+
 // routes/logoutRoutes.js
 const express = require('express');
 const router = express.Router();

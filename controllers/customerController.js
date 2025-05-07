@@ -1,3 +1,5 @@
+//written and tested by Pavel Martinez
+
 // controllers customer Controller.js
 const pool = require("../db"); // Assuming you have a database connection in db.js
 

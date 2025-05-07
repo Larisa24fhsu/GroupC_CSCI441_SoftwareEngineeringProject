@@ -1,3 +1,6 @@
+//written and tested by Brandon Tilley
+
+
 // controllers/logoutController.js
 const pool = require('../db');  // Assuming you have a database connection in db.js
 

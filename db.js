@@ -1,3 +1,7 @@
+//written and tested by Pavel Martinez, Brandon Tilley, Janelle Holcomb, Larisa Smith
+
+
+
 // db.js
 const { Pool } = require('pg');
 require('dotenv').config();

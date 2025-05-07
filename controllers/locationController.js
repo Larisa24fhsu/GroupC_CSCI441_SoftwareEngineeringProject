@@ -1,3 +1,6 @@
+//written and tested by Larisa Smith
+
+
 // controllers/locationController.js
 const pool = require('../db');  // Assuming you have a database connection in db.js
 

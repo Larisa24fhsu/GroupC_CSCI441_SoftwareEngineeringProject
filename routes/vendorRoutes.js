@@ -1,3 +1,5 @@
+//written and tested by Larisa Smith and Pavel Martinez
+
 // routes/vendorRoutes.js
 const express = require('express');
 const router = express.Router();

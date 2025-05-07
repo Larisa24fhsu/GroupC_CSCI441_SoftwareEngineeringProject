@@ -1,3 +1,6 @@
+//written and tested by Larisa Smith and Janelle Holcomb
+
+
 // routes/alertRoutes.js
 const { runAllAlerts } = require('../controllers/alertController');
 const express = require('express');

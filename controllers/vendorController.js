@@ -1,3 +1,5 @@
+//written and tested by Larisa Smith and Pavel Martinez
+
 // controllers/vendorController.js
 const pool = require('../db');  // Assuming you have a database connection in db.js
 

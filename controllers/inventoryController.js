@@ -1,3 +1,5 @@
+//written and tested by Larisa Smith
+
 // controllers/inventoryController.js
 
   const pool = require('../db');  // Janelle editing to update alerts logic 

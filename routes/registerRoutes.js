@@ -1,3 +1,5 @@
+//written and tested by Brandon Tilley
+
 // routes/registerRoutes.js
 
 const express = require('express');

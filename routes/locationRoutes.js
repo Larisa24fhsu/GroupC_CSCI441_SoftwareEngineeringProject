@@ -1,3 +1,5 @@
+//written and tested by Larisa Smith
+
 // routes/locationRoutes.js
 const express = require('express');
 const router = express.Router();
