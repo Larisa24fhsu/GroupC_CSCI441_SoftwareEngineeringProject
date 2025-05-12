@@ -1,7 +1,0 @@
-20250402	11:56:16	c7330455-d15d-4936-ad10-7982eb255b21	Error: Not allowed by CORS
-20250402	15:01:39	3b19ba47-c40f-42b7-9bba-fd1d13b58876	TypeError: req.accepted is not a function
-20250402	15:02:13	5d7c8a2b-1593-401b-93f9-9446bf211a59	TypeError: req.accepted is not a function
-20250403	20:56:47	ccae4371-ee29-4ba0-84be-b89e0e2c8737	Error: Not allowed by CORS
-20250403	20:59:07	d405799a-646b-4018-9385-1ba11cf0048d	Error: Not allowed by CORS
-20250403	20:59:22	8f60b976-813e-4c2e-bc22-4c01a3893ac8	Error: Not allowed by CORS
-20250403	21:00:40	b0d6ae0e-de71-4e73-ab1b-005ea6170d99	Error: Not allowed by CORS
