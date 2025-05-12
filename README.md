@@ -8,7 +8,7 @@ WasteLesss Inventory System
 
 5/11/2025
 
-See Project Electronic Archive Overview of Items.pdf for clearer view
+See Electronic Project Archive Overview of Items.pdf for clearer view
 
 WasteLesss Electronic Project Overview README- this contain the breakdown of all the items contained in the Archive
 Documentation – This contains the entire projects documentation
