@@ -1,3 +1,12 @@
+WasteLesss Inventory System
+  Developed & Tested by:
+      Group C - CSCI441Software Engineering
+      Larisa Smith
+      Janelle Holcomb
+      Pavel Martinez
+      Brandon Tilley
+
+
 This WasteLesss Electronic Project Archive Contains the Following Items
 5/11/2025
 
